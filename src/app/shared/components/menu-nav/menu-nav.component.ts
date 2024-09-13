@@ -8,8 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu-nav.component.css']
 })
 export class MenuNavComponent implements OnInit{
+
+  enlace_linkedIn = 'https://www.linkedin.com/in/jos%C3%A9-alejandro-prados-70930b169/';
+  enlace_github_proyecto = 'https://github.com/josealejandroprados/DibujosAppWeb';
+
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    // 
   }
   
   constructor(

@@ -1,48 +1,53 @@
+<!-- menu de navegación -->
 <nav class="navbar navbar-expand-md bg-menu" data-bs-theme="dark">
-    <div class="container-fluid">
-      <img src="../../../../assets/images/logo/LOGO1.jpg" width="120px" alt="logo" class="ms-4 navbar-brand rounded">
-      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body me-4">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" *ngIf="estalogueado()">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="dibujar" routerLinkActive="active" ariaCurrentWhenActive="page">
-                    Crear dibujo
-                </a>
+  <div class="container-fluid">
+    <img src="../../../../assets/images/logo/LOGO1.jpg" width="120px" alt="logo" class="ms-4 navbar-brand rounded">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" *ngIf="estalogueado()">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="dibujar" routerLinkActive="active" ariaCurrentWhenActive="page">
+              Crear dibujo
+          </a>
+        </li>
+        <li class="nav-item me-auto">
+          <a class="nav-link" routerLink="listadibujos" routerLinkActive="active" ariaCurrentWhenActive="page">
+              Lista dibujos
+          </a>
+        </li>
+        <li class="nav-item me-4">
+          <a class="nav-link" [href]="enlace_linkedIn" target="_blank">
+            <i class="bi bi-linkedin h5"></i>
+          </a>
+        </li>
+        <li class="nav-item me-5">
+          <a class="nav-link" [href]="enlace_github_proyecto" target="_blank">
+            <i class="bi bi-github h5"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown me-5">
+          <a class="dropdown-toggle text-white me-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle h4"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end p-4" style="width: 400px;" data-bs-theme="light">
+            <li class="h4 text-primary">
+              Bienvenido <i class="bi bi-emoji-laughing"></i>
             </li>
-            <li class="nav-item me-auto">
-                <a class="nav-link" routerLink="listadibujos" routerLinkActive="active" ariaCurrentWhenActive="page">
-                    Lista dibujos
-                </a>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <strong class="ms-2">User: </strong><i class="text-primary">{{getUser()}}</i>
             </li>
-            <li class="nav-item dropdown">
-                <a class="dropdown-toggle text-white me-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-person-circle h4"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end p-4" style="width: 300px;" data-bs-theme="light">
-                  <li class="h4 text-primary">
-                    Bienvenido <i class="bi bi-emoji-laughing"></i>
-                  </li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li>
-                    <strong class="ms-2">User: </strong><i class="text-primary">{{getUser()}}</i>
-                  </li>
-                  <br>
-                  <li>
-                    <button class="btn btn-outline-primary d-flex ms-auto me-4 mb-2" type="button" (click)="logout()">
-                      Cerrar Sesión
-                    </button>
-                  </li>
-                </ul>
+            <br>
+            <li>
+              <button class="btn btn-outline-primary d-flex ms-auto me-4 mb-2" type="button" (click)="logout()">
+                Cerrar Sesión
+              </button>
             </li>
           </ul>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
