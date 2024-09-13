@@ -1,1 +1,51 @@
-<p>lista-dibujos works!</p>
+<article class="container mt-4 p-4">
+
+    <h4 class="text-primary text-center mb-4">Lista de Imagenes</h4>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let imag of imagenes">
+                    <td>{{imag.nombre}}</td>
+                    <td>
+                        <img src="{{imag.url}}" alt="" width="200px" class="img-thumbnail">
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a [routerLink]="['/editardibujo',imag.id]" class="btn btn-outline-success">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button class="btn btn-outline-danger" (click)="consultaEliminarImage(imag.id,imag.path)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <button class="btn btn-outline-primary" (click)="downloadImage(imag.url, imag.nombre)">
+                                <i class="bi bi-download"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="imagenes.length<=0">
+                    <td colspan="3">
+                        <div class="alert alert-danger">
+                            No hay dibujos guardados
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</article>
+
+<app-modal [modalAccion]="modalEliminar" (complete)="DeleteComplete()"></app-modal>
+
+<app-modal-consulta [modalQuery]="modalConsultaEliminar" (aceptar)="eliminarImage()"></app-modal-consulta>
+
+<app-modal-carga-inicial></app-modal-carga-inicial>

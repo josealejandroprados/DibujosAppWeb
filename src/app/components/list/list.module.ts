@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ListRoutingModule } from './list-routing.module';
 import { ListaDibujosComponent } from './components/lista-dibujos/lista-dibujos.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ListaDibujosComponent } from './components/lista-dibujos/lista-dibujos.
   ],
   imports: [
     CommonModule,
-    ListRoutingModule
+    ListRoutingModule,
+    SharedModule
   ]
 })
 export class ListModule { }
