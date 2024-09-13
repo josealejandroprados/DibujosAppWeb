@@ -62,15 +62,23 @@ export class CanvasComponent implements OnInit, AfterViewInit{
 
   currentRoute: string = ''; //ruta actual
 
+  // metodo que se ejecuta cuando estan listos todos los componentes HTML de la página
   ngAfterViewInit(): void {
+    // verifico si la ruta tiene un parámetro id
     this.activRout.params.subscribe(params => {
+      // si estoy en el componente update => obtengo un id
       this.id = params['id'];
       if(this.id){
+        // si hay un id => llamo al metodo para obtener el registro de la imagen en Firestore
         this.data.getImg(this.id)
         .then(response => {
-          this.dataImageUpdate = response.data();
-          this.backupImage = null;
+          this.dataImageUpdate = response.data(); // registro de la imagen en Firestore
+          this.backupImage = null; // inicio el backup en null
+
+          /* llamo al metodo para cargar la imagen en el lienzo y hacer backup*/
           this.obtenerImgUpdate(this.dataImageUpdate);
+
+          // terminada la carga de la imagen se cierra el modal de carga inicial
           this.modalInicio.cerrarModal();
         })
         .catch(error => {
@@ -78,6 +86,12 @@ export class CanvasComponent implements OnInit, AfterViewInit{
         });
       }
     });
+
+    if(this.currentRoute=='/dibujar'){
+      /* si estoy en el componente crear-dibujo => agregó un fondo blanco
+      cuando está listo el componente canvas */
+      this.addWhiteBackground();
+    }
   }
   
   ngOnInit(): void {
@@ -134,15 +148,27 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     }
   }
 
-  // Función para guardar la imagen en localStorage
+  // Función para guardar la imagen en sesionStorage
   private saveCanvasImage() {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    localStorage.setItem('canvasImage', canvas.toDataURL()); // Guarda la URL en localStorage
+    sessionStorage.setItem('canvasImage', canvas.toDataURL()); // Guarda la URL en sessionStorage
+  }
+
+  // metodo para agregar un fondo blanco al lienzo
+  addWhiteBackground(){
+    // defino estilo de relleno blanco
+    this.ctx.fillStyle = '#FFFFFF';
+
+    // dibujo un rectangulo de color blanco que abarque toda la superficie del canvas
+    this.ctx.fillRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+
+    // guardar imagen en sessionStorage
+    this.saveCanvasImage();
   }
 
   private redimensionarImagen(){
     // Recupera la URL de datos de localStorage
-    const dataUrl = localStorage.getItem('canvasImage');
+    const dataUrl = sessionStorage.getItem('canvasImage');
 
     const img = new Image();
     img.onload = () => {
@@ -293,7 +319,11 @@ export class CanvasComponent implements OnInit, AfterViewInit{
 
   // eliminar todo el dibujo
   BorrarDibujo(){
+    // llamo al metodo del servicio canv para eliminar el dibujo
     this.canv.BorrarDibujo(this.ctx,this.canvas);
+
+    // llamo al metodo para dibujar un fondo blanco
+    this.addWhiteBackground();
   }
 
   // opcion de dibujo seleccionada
@@ -408,4 +438,5 @@ export class CanvasComponent implements OnInit, AfterViewInit{
 
     this.router.navigate(['/listadibujos']);
   }
+  // 
 }

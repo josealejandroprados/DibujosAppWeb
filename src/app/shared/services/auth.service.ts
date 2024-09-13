@@ -61,6 +61,9 @@ export class AuthService {
   // borrar usuario guardado en las cookies
   deleteCredentials(){
     this.cookie.deleteAll();
+
+    // eliminar datos de sessionStorage
+    sessionStorage.clear();
   }
 
   // metodo que indica con true o false si un usuario ha iniciado sesión
