@@ -1,0 +1,11 @@
+.bg-menu{
+    background-color: rgb(15, 109, 109);
+}
+
+.bg-dibujar{
+    background-color: rgb(41, 228, 228);
+}
+
+canvas{
+    background-color: white;
+}
