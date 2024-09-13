@@ -1,1 +1,34 @@
-<p>register works!</p>
+<section class="container mt-4">
+    <article class="row">
+        <div class="col-12 col-md-8 col-lg-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-primary text-center">Registro de Usuario</h4>
+
+                    <form (ngSubmit)="register()" [formGroup]="formRegister">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" formControlName="email" name="email" id="email" class="form-control" placeholder="Ingrese su email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" formControlName="password" name="password" id="password" class="form-control" placeholder="Ingrese su contraseña">
+                        </div>
+
+                        <div class="mb-3 btn-group">
+                            <button class="btn btn-outline-primary" type="submit" [disabled]="formRegister.invalid">
+                                Registrar
+                            </button>
+                            <a routerLink="/login" class="btn btn-outline-danger">
+                                Ir a login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+<app-modal [modalAccion]="modalRegisterUser" (complete)="aceptar()"></app-modal>
