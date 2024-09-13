@@ -43,6 +43,7 @@ export class ModalSaveComponent implements OnInit, AfterViewInit{
   ){}
 
   abrirModalGuardar(){
+    this.formSave.setValue({name:''});
     this.varModalGuardar.show();
   }
 

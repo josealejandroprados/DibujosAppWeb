@@ -3,16 +3,16 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title fs-5 text-primary" id="staticBackdropLabel">Guardar Dibujo</h4>
+            <h4 class="modal-title fs-5 text-primary">Guardar Dibujo</h4>
             <button type="button" class="btn-close" (click)="cerrarModalGuardar()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form [formGroup]="formSave">
                 <label for="name" class="form-label">Nombre del dibujo</label>
-                <input type="text" formControlName="name" #inputNombre name="name" id="name" class="form-control form-control-sm">
-                <div class="alert alert-danger mt-2 mb-3" [hidden]="name.valid || (name.pristine && name.untouched)">
-                    Es obligatorio ingresar un nombre
+                <div class="form-text text-danger mb-2">
+                    * Campo obligatorio
                 </div>
+                <input type="text" formControlName="name" #inputNombre (keydown.enter)="save()" name="name" id="name" class="form-control form-control-sm">
             </form>
         </div>
         <div class="modal-footer">
