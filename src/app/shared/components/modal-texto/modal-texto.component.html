@@ -1,1 +1,16 @@
-<p>modal-texto works!</p>
+  <!-- Modal Texto a dibujar-->
+  <div class="modal fade" id="modal-texto" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fs-5 text-primary" id="staticBackdropLabel">Agregar texto</h5>
+          <button type="button" class="btn-close" (click)="cerrarModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formText">
+                <input type="text" formControlName="texto" #inputTexto (keydown.enter)="enviar()" class="form-control form-control-sm" placeholder="Escribe tu texto" id="texto">
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
