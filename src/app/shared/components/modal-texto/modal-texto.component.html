@@ -11,6 +11,11 @@
                 <input type="text" formControlName="texto" #inputTexto (keydown.enter)="enviar()" class="form-control form-control-sm" placeholder="Escribe tu texto" id="texto">
             </form>
         </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-primary" (click)="enviar()">
+            Agregar
+          </button>
+        </div>
       </div>
     </div>
 </div>
