@@ -1,1 +1,24 @@
-<p>modal works!</p>
+<!-- Modal Contacto-->
+<div class="modal" id="modal-accion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title fs-5 text-primary" id="staticBackdropLabel">{{modalAccion.title}}</h3>
+          <button type="button" class="btn-close" *ngIf="modalAccion.hab_btn" (click)="aceptar()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center" *ngIf="!modalAccion.hab_btn">
+            <div class="spinner-border text-teal" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <p class="text-center">{{modalAccion.textoBodyModal}}</p>
+        </div>
+        <div class="modal-footer" *ngIf="modalAccion.hab_btn">
+          <button type="button" class="btn btn-outline-primary" (click)="aceptar()">
+            {{modalAccion.textoBtn}}
+          </button>
+        </div>
+      </div>
+    </div>
+</div>

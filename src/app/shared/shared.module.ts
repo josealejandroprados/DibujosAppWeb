@@ -9,6 +9,7 @@ import { ModalCargaInicialComponent } from './components/modal-carga-inicial/mod
 import { ModalConsultaComponent } from './components/modal-consulta/modal-consulta.component';
 import { ModalSaveComponent } from './components/modal-save/modal-save.component';
 import { ModalTextoComponent } from './components/modal-texto/modal-texto.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -25,7 +26,8 @@ import { ModalTextoComponent } from './components/modal-texto/modal-texto.compon
     ModalTextoComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     FooterComponent,
