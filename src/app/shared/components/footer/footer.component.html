@@ -1,1 +1,28 @@
-<p>footer works!</p>
+<footer class="bg-footer text-white p-4">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <img src="../../../assets/images/logo/LOGO1.jpg" alt="logo" class="img-fluid p-4 mt-auto mb-auto rounded">
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="p-4">
+                <a routerLink="contacto" class="mt-4 mb-4 text-white">Contáctame</a>
+
+                <p class="mt-4">Búscame en redes sociales</p>
+                <a class="btn btn-outline-light" [href]="enlace_linkedIn" target="_blank">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+                <a [href]="enlace_github" class="btn btn-outline-light ms-4" target="_blank">
+                    <i class="bi bi-github"></i>
+                </a>
+
+                <p class="mt-3">Enviame un mensaje en Whatsapp</p>
+                <button class="btn btn-outline-light" (click)="openWhatsApp()">
+                    <i class="bi bi-whatsapp"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p class="text-white text-center">{{texto1}}</p>
+    </div>
+</footer>
