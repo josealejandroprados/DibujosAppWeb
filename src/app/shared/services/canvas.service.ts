@@ -25,6 +25,8 @@ enum Shape {
   Eraser = 'eraser',
   Fill = 'fill',
   Text = 'text',
+  Square = 'square',
+  Bell = 'bell',
 }
 
 @Injectable({
@@ -102,6 +104,12 @@ export class CanvasService {
         break;
       case Shape.Trapezoid:
         this.drawTrapezoid(x1, y1, x2, y2, ctx);
+        break;
+      case Shape.Square:
+        this.drawPerfectSquare(x1, y1, x2, y2, ctx);
+        break;
+      case Shape.Bell:
+        this.drawBell(x1, y1, x2, y2, ctx);
         break;
     }
     ctx.lineWidth = styles.ancho;
@@ -228,6 +236,45 @@ export class CanvasService {
       ctx.stroke();
       ctx.closePath();
     }
+  }
+
+  // dibujar campana
+  drawBell(startX: number, startY: number, endX: number, endY: number, ctx:CanvasRenderingContext2D) {
+    const width = Math.abs(endX - startX);  // Ancho según la distancia entre los puntos de inicio y fin
+    const height = Math.abs(endY - startY); // Altura según la distancia entre los puntos de inicio y fin
+  
+    const x = startX < endX ? startX : endX;  // Determinar el punto x mínimo (izquierdo)
+    const y = startY < endY ? startY : endY;  // Determinar el punto y mínimo (superior)
+  
+    ctx.beginPath();
+  
+    // Dibujar el arco de la campana (parte superior)
+    ctx.moveTo(x, y + height * 0.4);
+    ctx.arc(x + width / 2, y + height * 0.4, width / 2, Math.PI, 0, false);
+  
+    // Dibujar los lados curvados de la campana
+    // dibujo el lado derecho
+    ctx.quadraticCurveTo(x + width, y + height * 0.55, x + width*1.1, y + height * 0.7);
+    // dibujo el lado izquierdo
+    ctx.moveTo(x, y + height * 0.4);
+    ctx.quadraticCurveTo(x, y + height * 0.55, x - width*0.1, y + height * 0.7);
+  
+    // Dibujar la base de la campana
+    ctx.moveTo(x -width*0.1, y + height * 0.7);
+    ctx.lineTo(x + width*1.1, y + height * 0.7);
+    // dibujo el arco de la parte inferior de la campana
+    ctx.arc(x + width / 2, y + height * 0.7, width / 4, 0, Math.PI, false);
+  
+    ctx.stroke();
+  }
+  
+  // dibujar cuadrado perfecto
+  drawPerfectSquare(startX: number, startY: number, currentX: number, currentY: number, ctx:CanvasRenderingContext2D){
+    const sideLength = Math.min(Math.abs(currentX - startX), Math.abs(currentY - startY));
+  
+    ctx.beginPath();
+    ctx.rect(startX, startY, sideLength, sideLength);
+    ctx.stroke();
   }
 
   // dibujar linea curva

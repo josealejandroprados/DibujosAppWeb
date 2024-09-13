@@ -162,6 +162,9 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     // dibujo un rectangulo de color blanco que abarque toda la superficie del canvas
     this.ctx.fillRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
 
+    // Guardar copia de backup de la imagen del canvas
+    this.backupImage = this.ctx.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+
     // guardar imagen en sessionStorage
     this.saveCanvasImage();
   }
@@ -285,7 +288,7 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     // Guardar copia de backup de la imagen del canvas
     this.backupImage = this.ctx.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
     
-    // guardar imagen en localStorage
+    // guardar imagen en sessionStorage
     this.saveCanvasImage();
   }
 
@@ -311,6 +314,7 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     }
   }
 
+  // restaurar copia de backup del canvas
   restoreCanvas() {
     if (this.backupImage) {
       this.ctx.putImageData(this.backupImage, 0, 0);
