@@ -9,7 +9,11 @@
 # Node
 /node_modules
 npm-debug.log
-yarn-error.log
+yarn-error.
+
+#archivos de entorno
+src/environments/environment.ts
+src/environments/environment.prod.ts
 
 # IDEs and editors
 .idea/
