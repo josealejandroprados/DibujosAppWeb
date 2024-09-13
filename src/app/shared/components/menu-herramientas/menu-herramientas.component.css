@@ -1,0 +1,26 @@
+.bg-menu{
+    background-color: rgb(15, 109, 109);
+}
+
+/* border para pantallas lg */
+@media (min-width: 992px) {
+
+    .border-lg-end {
+      border-right: 1px dotted #dee2e6;
+    }
+
+    .border-lg-start {
+        border-left: 1px dotted #dee2e6;
+    }
+}
+
+/* border para pantallas sm y md */
+@media (max-width: 991px){
+    .border-sm-top {
+        border-top: 1px dotted #dee2e6;
+    }
+
+    .border-sm-bottom {
+        border-bottom: 1px dotted #dee2e6;
+    }
+}

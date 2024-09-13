@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CreateRoutingModule } from './create-routing.module';
 import { CrearDibujoComponent } from './components/crear-dibujo/crear-dibujo.component';
+import { SharedModule } from "../../shared/shared.module";
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { CrearDibujoComponent } from './components/crear-dibujo/crear-dibujo.com
   ],
   imports: [
     CommonModule,
-    CreateRoutingModule
-  ]
+    CreateRoutingModule,
+    SharedModule
+]
 })
 export class CreateModule { }
