@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginGuard } from './shared/guards/log-guard';
 
 const routes: Routes = [
   {path:'', redirectTo:'/dibujar', pathMatch:'full'},
@@ -13,19 +14,22 @@ const routes: Routes = [
     path:'',
     loadChildren: () => import('./components/create/create.module').then(
       m => m.CreateModule
-    )
+    ),
+    canActivate:[LoginGuard]
   },
   {
     path:'',
     loadChildren: () => import('./components/list/list.module').then(
       m => m.ListModule
-    )
+    ),
+    canActivate:[LoginGuard]
   },
   {
     path:'',
     loadChildren: () => import('./components/update/update.module').then(
       m => m.UpdateModule
-    )
+    ),
+    canActivate:[LoginGuard]
   },
   {path:'**', redirectTo:'/dibujar', pathMatch:'full'}
 ];
