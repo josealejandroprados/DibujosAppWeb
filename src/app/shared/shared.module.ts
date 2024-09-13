@@ -10,6 +10,7 @@ import { ModalConsultaComponent } from './components/modal-consulta/modal-consul
 import { ModalSaveComponent } from './components/modal-save/modal-save.component';
 import { ModalTextoComponent } from './components/modal-texto/modal-texto.component';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -27,7 +28,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule
   ],
   exports: [
     FooterComponent,
