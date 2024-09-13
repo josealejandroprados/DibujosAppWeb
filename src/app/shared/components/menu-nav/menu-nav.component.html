@@ -6,28 +6,33 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" *ngIf="estalogueado()">
-        <li class="nav-item">
+      <ul class="navbar-nav flex-grow-1 pe-3">
+        <!-- crear dibujo -->
+        <li class="nav-item" *ngIf="estalogueado()">
           <a class="nav-link" routerLink="dibujar" routerLinkActive="active" ariaCurrentWhenActive="page">
               Crear dibujo
           </a>
         </li>
-        <li class="nav-item me-auto">
+        <!-- lista de dibujos -->
+        <li class="nav-item" *ngIf="estalogueado()">
           <a class="nav-link" routerLink="listadibujos" routerLinkActive="active" ariaCurrentWhenActive="page">
               Lista dibujos
           </a>
         </li>
-        <li class="nav-item me-4">
+        <!-- perfil de linkedIn -->
+        <li class="nav-item me-4 ms-auto">
           <a class="nav-link" [href]="enlace_linkedIn" target="_blank">
             <i class="bi bi-linkedin h5"></i>
           </a>
         </li>
-        <li class="nav-item me-5">
+        <!-- link del proyecto en github -->
+        <li class="nav-item me-5" *ngIf="estalogueado()">
           <a class="nav-link" [href]="enlace_github_proyecto" target="_blank">
             <i class="bi bi-github h5"></i>
           </a>
         </li>
-        <li class="nav-item dropdown me-5">
+        <!-- cuadro de inicio de sesion -->
+        <li class="nav-item dropdown me-5" *ngIf="estalogueado()">
           <a class="dropdown-toggle text-white me-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-person-circle h4"></i>
           </a>
@@ -46,6 +51,20 @@
               </button>
             </li>
           </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto me-5" *ngIf="!estalogueado()">
+        <!-- login -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="login" routerLinkActive="active" ariaCurrentWhenActive="page">
+              Iniciar Sesión
+          </a>
+        </li>
+        <!-- registro -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="register" routerLinkActive="active" ariaCurrentWhenActive="page">
+              Registrarse
+          </a>
         </li>
       </ul>
     </div>
