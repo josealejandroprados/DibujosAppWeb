@@ -26,6 +26,16 @@ import { ModalTextoComponent } from './components/modal-texto/modal-texto.compon
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    FooterComponent,
+    MenuNavComponent,
+    ModalComponent,
+    MenuHerramientasComponent,
+    ModalTextoComponent,
+    ModalConsultaComponent,
+    CanvasComponent,
+    ModalCargaInicialComponent
   ]
 })
 export class SharedModule { }
