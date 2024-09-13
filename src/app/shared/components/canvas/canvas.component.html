@@ -1,1 +1,14 @@
-<p>canvas works!</p>
+<section class="mt-0 mb-0 p-4 bg-dibujar container-fluid" id="contenedor">
+    <h4 class="text-center text-white mb-2">Area de Dibujo</h4>
+
+    <div class="d-flex justify-content-center">
+        <canvas class="mi-canvas rounded" #dibujo [width]="anchoMaximo" [height]="1000" id="canvas"></canvas>
+    </div>
+      
+</section>
+
+<app-modal-texto *ngIf="selectedShape==='text'" (texto)="drawText($event)"></app-modal-texto>
+
+<app-modal [modalAccion]="modalComplete" (complete)="UploadComplete()"></app-modal>
+
+<app-modal-carga-inicial *ngIf=" currentRoute!='/dibujar' "></app-modal-carga-inicial>
