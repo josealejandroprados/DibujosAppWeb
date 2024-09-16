@@ -46,8 +46,13 @@
             </li>
             <br>
             <li>
-              <button class="btn btn-outline-primary d-flex ms-auto me-4 mb-2" type="button" (click)="logout()">
+              <button class="btn btn-outline-primary d-flex ms-auto me-4 mb-2" type="button" (click)="consultaAcciones('logout')">
                 Cerrar Sesión
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-outline-danger d-flex ms-auto me-4 mb-2" type="button" (click)="consultaAcciones('deleteAccount')">
+                Eliminar Cuenta
               </button>
             </li>
           </ul>
@@ -70,3 +75,28 @@
     </div>
   </div>
 </nav>
+
+<!-- Modal Consulta al Usuario por una accion: Aceptar o Cancelar-->
+<div class="modal fade" id="modal-acciones" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title fs-5 text-primary" id="staticBackdropLabel">{{modalAcciones.title}}</h5>
+          <button type="button" class="btn-close" (click)="cerrarModalConsulta()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p style="font-size: 0.9rem;">{{modalAcciones.textoBodyModal}}</p>
+      </div>
+      <div class="modal-footer">
+          <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-primary" (click)="ok()">
+              Aceptar
+            </button>
+            <button type="button" class="btn btn-outline-danger" (click)="cerrarModalConsulta()">
+                Cancelar
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
