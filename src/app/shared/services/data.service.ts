@@ -4,16 +4,20 @@ import { AuthService } from './auth.service';
 import { deleteObject, getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { ImageModel } from '../models/image.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
+  promesasPendientes: Promise<any>[] = [];
+
   constructor(
     private storage:Storage,
     private firestore:Firestore,
-    private auth:AuthService
+    private auth:AuthService,
+    private router:Router
   ) { }
 
   // agregar imagen al Storage
@@ -69,6 +73,21 @@ export class DataService {
     return deleteObject(imgRef);
   }
 
+  // eliminar todas imagenes
+  async deleteAllImagesStorage(images:ImageModel[]){
+    // recorro todo el array
+    for(var k=0; k<images.length; k++){
+      // elimino cada una de las imagenes con su path
+      await this.deleteImage(images[k].path)
+      .then( () => {
+        console.log(`imagen ${images[k].nombre} eliminada exitosamente`);
+      })
+      .catch(error => {
+        console.log(`error al eliminar la imagen ${images[k].nombre}`,error);
+      });
+    }
+  }
+
   // guardar en firestore
   saveInFirestore(obj:any){
     // crear una referencia para el documento que voy a guardar
@@ -85,7 +104,7 @@ export class DataService {
     return collectionData(registrosRef,{idField:'id'}) as Observable<ImageModel[]>;
   }
 
-  // eliminar registro de la imagen en Firestore
+  // eliminar registro de la imagen en Firestore con su id
   deleteImageFirestore(id:string){
     // obtener una referencia al documento que quiero eliminar
     const registroRef = doc(this.firestore, `${this.auth.getUser()}/${id}`);
@@ -93,6 +112,7 @@ export class DataService {
     return deleteDoc(registroRef);
   }
 
+  // obtener un documento de Firestore con su id
   getImg(id:string){
     // obtener una referencia al documento que quiero obtener
     const registroRef = doc(this.firestore, `${this.auth.getUser()}/${id}`);
@@ -106,5 +126,33 @@ export class DataService {
     const registroRef = doc(this.firestore, `${this.auth.getUser()}/${id}`);
 
     return setDoc(registroRef,obj);
+  }
+
+  // eliminar todos los registros de Firestore
+  async deleteAllFirestore(images:ImageModel[]){
+    // recorro todo el array
+    for(var k=0; k<images.length; k++){
+      // elimino cada registro con su id
+      const promesa = this.deleteImageFirestore(images[k].id);
+
+      // guardo la promesa en un array de promesas
+      this.promesasPendientes.push(promesa);
+    }
+
+    // verificar si se han cumplido todas las promesas
+    Promise.all(this.promesasPendientes)
+    .then( resultados => {
+      console.log('registros eliminados con exito',resultados);
+
+      // limpio el array de promesas
+      this.promesasPendientes = [];
+
+      // eliminar usuario
+      console.log('eliminando usuario...');
+      this.auth.deleteAccountUser();
+    })
+    .catch(error => {
+      console.log('una de las promesas falló',error)
+    });
   }
 }

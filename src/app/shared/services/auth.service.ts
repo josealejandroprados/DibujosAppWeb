@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, deleteUser, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -34,6 +34,33 @@ export class AuthService {
   // cerrar sesión
   logout(){
     return signOut(this.auth);
+  }
+
+  // eliminar cuenta de usuario
+  deleteAccountUser(){
+    // obtener el usuario actual
+    const user = this.auth.currentUser;
+
+    if(user){
+      // llamar al metodo para eliminar usuario
+      deleteUser(user)
+      .then( () => {
+        console.log('Usuario eliminado con exito');
+
+        // eliminar cookies y sessionStorage
+        this.deleteCredentials();
+
+        // redirigir a login
+        this.router.navigate(['/login']);
+      })
+      .catch(error => {
+        console.log('error al eliminar el usuario',error);
+        
+        this.deleteCredentials();
+
+        this.router.navigate(['/login']);
+      });
+    }
   }
 
   // obtener usuario actual

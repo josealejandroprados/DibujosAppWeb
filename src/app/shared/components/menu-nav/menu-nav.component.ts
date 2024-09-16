@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ModalConsulta } from '../../models/modal.consulta.model';
+import { DataService } from '../../services/data.service';
 
 declare var window:any;
 
@@ -30,7 +31,8 @@ export class MenuNavComponent implements OnInit{
   
   constructor(
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private data:DataService
   ){}
 
   // metodo para cerrar sesión
@@ -96,10 +98,18 @@ export class MenuNavComponent implements OnInit{
     }
     else{
       // elimino cuenta
+      // obtener registros de Firestore
+      this.data.getImages().subscribe(async datos => {
+        // eliminar los dibujos de Storage usando el path
+        await this.data.deleteAllImagesStorage(datos);
 
+        // eliminar todos los registros de Firestore y eliminar usuario (dentro del metodo deleteAllFirestore)
+        await this.data.deleteAllFirestore(datos);
 
-      // cerrar modal
-      this.cerrarModalConsulta();
+        // cerrar modal
+        this.cerrarModalConsulta();
+      });
+      
     }
   }
 
