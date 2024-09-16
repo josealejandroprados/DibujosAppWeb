@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav flex-grow-1 pe-3">
         <!-- crear dibujo -->
-        <li class="nav-item" *ngIf="estalogueado()">
+        <li class="nav-item">
           <a class="nav-link" routerLink="dibujar" routerLinkActive="active" ariaCurrentWhenActive="page">
               Crear dibujo
           </a>
@@ -20,40 +20,44 @@
           </a>
         </li>
         <!-- perfil de linkedIn -->
-        <li class="nav-item me-4 ms-auto">
+        <li class="nav-item ms-4">
           <a class="nav-link" [href]="enlace_linkedIn" target="_blank">
             <i class="bi bi-linkedin h5"></i>
           </a>
         </li>
         <!-- link del proyecto en github -->
-        <li class="nav-item me-5" *ngIf="estalogueado()">
+        <li class="nav-item ms-4" *ngIf="estalogueado()">
           <a class="nav-link" [href]="enlace_github_proyecto" target="_blank">
             <i class="bi bi-github h5"></i>
           </a>
         </li>
         <!-- cuadro de inicio de sesion -->
-        <li class="nav-item dropdown me-5" *ngIf="estalogueado()">
+        <li class="nav-item dropdown me-0 me-md-0 me-lg-5 ms-4 ms-md-auto ms-lg-auto" *ngIf="estalogueado()">
           <a class="dropdown-toggle text-white me-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-person-circle h4"></i>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end p-4" style="width: 400px;" data-bs-theme="light">
-            <li class="h4 text-primary">
+          <ul class="dropdown-menu dropdown-menu-end p-2" style="width: 300px;" data-bs-theme="light">
+            <li class="h5 text-primary text-center">
               Bienvenido <i class="bi bi-emoji-laughing"></i>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li>
+            <li style="font-size: 0.8rem;">
               <strong class="ms-2">User: </strong><i class="text-primary">{{getUser()}}</i>
             </li>
             <br>
             <li>
-              <button class="btn btn-outline-primary d-flex ms-auto me-4 mb-2" type="button" (click)="consultaAcciones('logout')">
-                Cerrar Sesión
-              </button>
-            </li>
-            <li>
-              <button class="btn btn-outline-danger d-flex ms-auto me-4 mb-2" type="button" (click)="consultaAcciones('deleteAccount')">
-                Eliminar Cuenta
-              </button>
+              <div class="d-flex flex-column">
+                
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-primary btn-sm" type="button" (click)="consultaAcciones('logout')">
+                    Cerrar Sesión
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm" type="button" (click)="consultaAcciones('deleteAccount')">
+                    Eliminar Cuenta
+                  </button>
+                </div>
+              </div>
+              
             </li>
           </ul>
         </li>
