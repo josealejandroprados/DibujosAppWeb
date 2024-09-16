@@ -10,19 +10,29 @@
                             <label for="email" class="form-label">Email</label>
                             <input type="email" formControlName="email" name="email" id="email" class="form-control" placeholder="Ingrese su email">
                         </div>
+                        <div class="alert alert-danger mt-2 mb-3" [hidden]="email.valid || (email.pristine && email.untouched)">
+                            <span *ngIf="email.errors?.['required']">
+                                El email es obligatorio
+                            </span>
+                            <span *ngIf="email.errors?.['email']">
+                                El email debe ser válido
+                            </span>
+                        </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" formControlName="password" name="password" id="password" class="form-control" placeholder="Ingrese su contraseña">
                         </div>
+                        <div class="alert alert-danger mt-2 mb-3" [hidden]="password.valid || (password.pristine && password.untouched)">
+                            <span *ngIf="password.errors?.['required']">
+                                El password es obligatorio
+                            </span>
+                        </div>
 
-                        <div class="mb-3 btn-group">
+                        <div class="mb-3">
                             <button class="btn btn-outline-primary" type="submit" [disabled]="formRegister.invalid">
                                 Registrar
                             </button>
-                            <a routerLink="/login" class="btn btn-outline-danger">
-                                Ir a login
-                            </a>
                         </div>
                     </form>
                 </div>

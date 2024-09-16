@@ -83,4 +83,11 @@ export class LoginComponent {
     }
   }
   
+  // getters
+  get email(){
+    return this.formLogin.get('email') as FormControl;
+  }
+  get password(){
+    return this.formLogin.get('password') as FormControl;
+  }
 }

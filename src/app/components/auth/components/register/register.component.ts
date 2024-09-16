@@ -71,5 +71,13 @@ export class RegisterComponent {
       this.modalRegisterUser.textoBodyModal = '';
     }
   }
+
+  // getters
+  get email(){
+    return this.formRegister.get('email') as FormControl;
+  }
+  get password(){
+    return this.formRegister.get('password') as FormControl;
+  }
   
 }
