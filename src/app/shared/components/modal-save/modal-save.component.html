@@ -1,9 +1,9 @@
 <!-- Modal usado para guardar un dibujo en Firebase Storage, aqui se define el nombre del archivo -->
 <div class="modal" id="modal-save">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title fs-5 text-primary">Guardar Dibujo</h4>
+            <h5 class="modal-title fs-5 text-primary">Guardar Dibujo</h5>
             <button type="button" class="btn-close" (click)="cerrarModalGuardar()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -16,12 +16,14 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-outline-primary" [disabled]="formSave.invalid" (click)="save()">
-                Aceptar
-            </button>
-            <button type="button" class="btn btn-outline-danger" (click)="cerrarModalGuardar()">
-                Cancelar
-            </button>
+            <div class="btn-group btn-group-sm">
+                <button type="submit" class="btn btn-outline-primary btn-sm" [disabled]="formSave.invalid" (click)="save()">
+                    Aceptar
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="cerrarModalGuardar()">
+                    Cancelar
+                </button>
+            </div>
         </div>
       </div>
     </div>
