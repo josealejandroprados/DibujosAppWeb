@@ -4,20 +4,16 @@ import { AuthService } from './auth.service';
 import { deleteObject, getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { ImageModel } from '../models/image.model';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  promesasPendientes: Promise<any>[] = [];
-
   constructor(
     private storage:Storage,
     private firestore:Firestore,
-    private auth:AuthService,
-    private router:Router
+    private auth:AuthService
   ) { }
 
   // agregar imagen al Storage
@@ -127,32 +123,5 @@ export class DataService {
 
     return setDoc(registroRef,obj);
   }
-
-  // eliminar todos los registros de Firestore
-  async deleteAllFirestore(images:ImageModel[]){
-    // recorro todo el array
-    for(var k=0; k<images.length; k++){
-      // elimino cada registro con su id
-      const promesa = this.deleteImageFirestore(images[k].id);
-
-      // guardo la promesa en un array de promesas
-      this.promesasPendientes.push(promesa);
-    }
-
-    // verificar si se han cumplido todas las promesas
-    Promise.all(this.promesasPendientes)
-    .then( resultados => {
-      console.log('registros eliminados con exito',resultados);
-
-      // limpio el array de promesas
-      this.promesasPendientes = [];
-
-      // eliminar usuario
-      console.log('eliminando usuario...');
-      this.auth.deleteAccountUser();
-    })
-    .catch(error => {
-      console.log('una de las promesas falló',error)
-    });
-  }
+  // 
 }

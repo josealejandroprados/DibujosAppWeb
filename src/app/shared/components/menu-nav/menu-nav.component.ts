@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ModalConsulta } from '../../models/modal.consulta.model';
 import { DataService } from '../../services/data.service';
+import { ModalModel } from '../../models/modal.model';
 
 declare var window:any;
 
@@ -20,12 +21,24 @@ export class MenuNavComponent implements OnInit{
   };
   action:string='';
 
+  varModalExecute:any;
+  modalExecute:ModalModel={
+    title:'',
+    textoBodyModal:'',
+    textoBtn:'Aceptar',
+    hab_btn:false
+  }
+
   enlace_linkedIn = 'https://www.linkedin.com/in/jos%C3%A9-alejandro-prados-70930b169/';
   enlace_github_proyecto = 'https://github.com/josealejandroprados/DibujosAppWeb';
 
   ngOnInit(): void {
     this.varModalAcciones = new window.bootstrap.Modal(
       document.getElementById('modal-acciones')
+    );
+
+    this.varModalExecute = new window.bootstrap.Modal(
+      document.getElementById('modal-execute-action')
     );
   }
   
@@ -44,8 +57,8 @@ export class MenuNavComponent implements OnInit{
       // eliminar cookies y sesionStorage
       this.auth.deleteCredentials();
 
-      // redirigir a login
-      this.router.navigate(['/login']);
+      // redirigir a dibujar
+      this.router.navigate(['/dibujar']);
 
       // recargar pagina luego de 200 ms (browser refresh)
       setTimeout(() => {
@@ -97,6 +110,15 @@ export class MenuNavComponent implements OnInit{
       this.cerrarModalConsulta();
     }
     else{
+      // cerrar modal de consulta
+      this.cerrarModalConsulta();
+
+      // modifico propiedades de modalExecute
+      this.modalExecute.title = 'Eliminar Cuenta';
+      this.modalExecute.textoBodyModal = 'Eliminando dibujos...'
+      // abrir modal execute
+      this.varModalExecute.show();
+
       // elimino cuenta
       // obtener registros de Firestore
       this.data.getImages().subscribe(async datos => {
@@ -104,13 +126,81 @@ export class MenuNavComponent implements OnInit{
         await this.data.deleteAllImagesStorage(datos);
 
         // eliminar todos los registros de Firestore y eliminar usuario (dentro del metodo deleteAllFirestore)
-        await this.data.deleteAllFirestore(datos);
+        // await this.data.deleteAllFirestore(datos);
+        var promesasPendientes: Promise<any>[] = [];
 
-        // cerrar modal
-        this.cerrarModalConsulta();
+        // recorro todo el array
+        for(var k=0; k<datos.length; k++){
+          // elimino cada registro con su id
+          const promesa = this.data.deleteImageFirestore(datos[k].id);
+        
+          // guardo la promesa en un array de promesas
+          promesasPendientes.push(promesa);
+        }
+
+        // verificar si se han cumplido todas las promesas
+        Promise.all(promesasPendientes)
+        .then( resultados => {
+          console.log('registros eliminados con exito',resultados);
+        
+          // limpio el array de promesas
+          promesasPendientes = [];
+        
+          // eliminar usuario
+          console.log('eliminando usuario...');
+          this.modalExecute.textoBodyModal = 'Eliminando usuario...';
+          this.auth.deleteAccountUser()
+          .then( () => {
+            console.log('usuario eliminado con éxito');
+
+            // eliminar credenciales
+            this.auth.deleteCredentials();
+
+            this.modalExecute.hab_btn = true;
+            this.modalExecute.textoBodyModal = 'Usuario eliminado con exito';
+          })
+          .catch(error => {
+            console.log('error al eliminar el usuario', error);
+
+            // eliminar credenciales
+            this.auth.deleteCredentials();
+
+            this.modalExecute.hab_btn = true;
+            this.modalExecute.textoBodyModal='¡Error! para poder eliminar su usuario necesita realizar una autenticacion mas reciente, por favor vuelva a autenticarse';
+          });
+        })
+        .catch(error => {
+          console.log('una de las promesas falló',error)
+        });
       });
       
     }
+  }
+
+  aceptar(){
+    if(this.modalExecute.textoBodyModal=='Usuario eliminado con exito'){
+      // cerrar modal y reiniciar variables de modal Execute
+      this.cerrarModalExecute();
+      // redirigir a /dibujar
+      this.router.navigate(['dibujar']);
+    }
+    else{
+      // cerrar modal y reiniciar variables de modal Execute
+      this.cerrarModalExecute();
+      // redirigir a login
+      this.router.navigate(['login']);
+    }
+  }
+
+  // metodo para cerrar modal execute y reiniciar variables de modalExecute
+  private cerrarModalExecute(){
+    // cerrar modal execute
+    this.varModalExecute.hide();
+    // reiniciar variables de modal execute
+    this.modalExecute.title = '';
+    this.modalExecute.textoBodyModal = '';
+    this.modalExecute.hab_btn = false;
+    this.modalExecute.textoBtn = 'Aceptar';
   }
 
   // metodo para cerrar modal

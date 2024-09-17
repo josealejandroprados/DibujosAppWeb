@@ -37,29 +37,12 @@ export class AuthService {
   }
 
   // eliminar cuenta de usuario
-  deleteAccountUser(){
+  async deleteAccountUser(){
     // obtener el usuario actual
     const user = this.auth.currentUser;
 
     if(user){
-      // llamar al metodo para eliminar usuario
-      deleteUser(user)
-      .then( () => {
-        console.log('Usuario eliminado con exito');
-
-        // eliminar cookies y sessionStorage
-        this.deleteCredentials();
-
-        // redirigir a login
-        this.router.navigate(['/login']);
-      })
-      .catch(error => {
-        console.log('error al eliminar el usuario',error);
-        
-        this.deleteCredentials();
-
-        this.router.navigate(['/login']);
-      });
+      return await deleteUser(user)
     }
   }
 

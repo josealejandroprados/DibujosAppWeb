@@ -22,13 +22,13 @@
         <!-- perfil de linkedIn -->
         <li class="nav-item ms-4">
           <a class="nav-link" [href]="enlace_linkedIn" target="_blank">
-            <i class="bi bi-linkedin h5"></i>
+            <i class="bi bi-linkedin h4"></i>
           </a>
         </li>
         <!-- link del proyecto en github -->
         <li class="nav-item ms-4" *ngIf="estalogueado()">
           <a class="nav-link" [href]="enlace_github_proyecto" target="_blank">
-            <i class="bi bi-github h5"></i>
+            <i class="bi bi-github h4"></i>
           </a>
         </li>
         <!-- cuadro de inicio de sesion -->
@@ -100,6 +100,31 @@
                 Cancelar
             </button>
           </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal luego de eliminar cuenta o cerrar sesion-->
+<div class="modal" id="modal-execute-action" data-bs-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title fs-5 text-primary" id="staticBackdropLabel">{{modalExecute.title}}</h3>
+        <button type="button" class="btn-close" *ngIf="modalExecute.hab_btn" (click)="aceptar()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center" *ngIf="!modalExecute.hab_btn">
+          <div class="spinner-border text-teal" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <p class="text-center">{{modalExecute.textoBodyModal}}</p>
+      </div>
+      <div class="modal-footer" *ngIf="modalExecute.hab_btn">
+        <button type="button" class="btn btn-outline-primary" (click)="aceptar()">
+          {{modalExecute.textoBtn}}
+        </button>
       </div>
     </div>
   </div>

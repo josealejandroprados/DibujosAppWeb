@@ -1,3 +1,10 @@
 .bg-menu{
     background-color: rgb(19, 83, 83);
 }
+
+.text-teal{
+    color: aqua;
+    font-size:xx-large;
+    height: 5rem;
+    width: 5rem;
+}
