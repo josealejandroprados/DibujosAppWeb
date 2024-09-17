@@ -57,16 +57,17 @@ export class MenuNavComponent implements OnInit{
       // eliminar cookies y sesionStorage
       this.auth.deleteCredentials();
 
-      // redirigir a dibujar
-      this.router.navigate(['/dibujar']);
-
-      // recargar pagina luego de 200 ms (browser refresh)
-      setTimeout(() => {
-        window.location.reload();
-      }, 200);
+      this.modalExecute.textoBodyModal = '¡Has cerrado sesión! Vuelve pronto!';
+      this.modalExecute.hab_btn = true;
     })
     .catch(error => {
       console.log(error);
+
+      // eliminar cookies y sesionStorage
+      this.auth.deleteCredentials();
+
+      this.modalExecute.textoBodyModal = 'Ha ocurrido un error al cerrar sesión';
+      this.modalExecute.hab_btn = true;
     });
   }
 
@@ -103,11 +104,17 @@ export class MenuNavComponent implements OnInit{
   // metodo de aceptación de accion (cerrar sesion o eliminar cuenta) en modal
   ok(){
     if(this.action=='logout'){
-      // realizo el logout
-      this.logout();
-
       // cerrar modal
       this.cerrarModalConsulta();
+
+      // modifico propiedades de modalExecute
+      this.modalExecute.title = 'Cerrar Sesión';
+      this.modalExecute.textoBodyModal = '';
+      // abrir modal execute
+      this.varModalExecute.show();
+
+      // realizo el logout
+      this.logout();
     }
     else{
       // cerrar modal de consulta
@@ -178,18 +185,36 @@ export class MenuNavComponent implements OnInit{
   }
 
   aceptar(){
-    if(this.modalExecute.textoBodyModal=='Usuario eliminado con exito'){
-      // cerrar modal y reiniciar variables de modal Execute
-      this.cerrarModalExecute();
-      // redirigir a /dibujar
-      this.router.navigate(['dibujar']);
+    if(this.modalExecute.title == 'Eliminar Cuenta'){
+      // se dio click en aceptar despues de eliminar cuenta
+      if(this.modalExecute.textoBodyModal=='Usuario eliminado con exito'){
+        // cerrar modal y reiniciar variables de modal Execute
+        this.cerrarModalExecute();
+        // redirigir a /dibujar
+        this.router.navigate(['dibujar']);
+      }
+      else{
+        // cerrar modal y reiniciar variables de modal Execute
+        this.cerrarModalExecute();
+        // redirigir a login
+        this.router.navigate(['login']);
+      }
     }
     else{
-      // cerrar modal y reiniciar variables de modal Execute
+      // se dio click en aceptar despues de cerrar sesión
+
+      // cerrar modal execute y reiniciar variables de modal execute
       this.cerrarModalExecute();
-      // redirigir a login
-      this.router.navigate(['login']);
+      
+      // redirigir a dibujar
+      this.router.navigate(['/dibujar']);
+
+      // recargar pagina luego de 200 ms (browser refresh)
+      setTimeout(() => {
+        window.location.reload();
+      }, 200);
     }
+    
   }
 
   // metodo para cerrar modal execute y reiniciar variables de modalExecute
