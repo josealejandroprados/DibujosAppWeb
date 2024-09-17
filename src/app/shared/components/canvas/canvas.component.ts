@@ -299,16 +299,14 @@ export class CanvasComponent implements OnInit, AfterViewInit{
   // evento para modificar el tamaño del borrador (eraser)
   @HostListener('window:keydown', ['$event'])
   aumentarBorrador(event:KeyboardEvent){
-    if(event.key === '+' && this.eraserSize <40){
-      // incrementar tamaño del borrador sin superar el maximo de 40
-      this.eraserSize += 10;
-      this.updateIconEraser(); //modificar icono del borrador
+    if(event.key === '+'){
+      // incrementar tamaño del borrador
+      this.updateSizeEraser('+');
     }
-    if(event.key === '-' && this.eraserSize>10){
-      // decrementar tamaño del borrador sin bajar del minimo de 10
-      this.eraserSize -= 10;
-      this.updateIconEraser(); //modificar icono del borrador
-    }    
+    if(event.key === '-'){
+      // decrementar tamaño del borrador
+      this.updateSizeEraser('-');
+    }
   }
 
   // actualizar icono del cursor segun la forma o herramienta a usar
@@ -334,8 +332,23 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     }
   }
 
+  /* metodo para modificar tamaño del borrador, llamado desde el padre (create o update)
+  y tambien desde aumentarBorrador (@HostListener) */
+  updateSizeEraser(funcion:string){
+    if(funcion=='+' && this.eraserSize<40){
+      // incrementar tamaño del borrador sin superar el maximo de 40
+      this.eraserSize += 10;
+      this.updateIconEraser(); //modificar icono del borrador
+    }
+    if(funcion=='-' && this.eraserSize>10){
+      // decrementar tamaño del borrador sin bajar del minimo de 10
+      this.eraserSize -= 10;
+      this.updateIconEraser(); //modificar icono del borrador
+    }
+  }
+
   // metodo para modificar icono del borrador
-  updateIconEraser(){
+  private updateIconEraser(){
     // modificar el cursor según el tamaño
     switch (this.eraserSize){
       case 10:

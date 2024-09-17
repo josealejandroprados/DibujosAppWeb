@@ -15,40 +15,63 @@
             <li class="nav-item mt-0 mt-md-2 mt-lg-0 mx-auto d-block px-sm-0 px-md-0 px-lg-3 border-lg-end border-lg-start">
                 <div class="text-center">
                     <label class="form-label mb-2 text-white">Herramientas</label>
+                    <div class="btn-group d-block">
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('pencil')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Lápiz"
+                            data-bs-placement="top">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('fill')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Relleno"
+                            data-bs-placement="top">
+                            <i class="bi bi-paint-bucket"></i>
+                        </button>
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('eraser')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Borrador"
+                            data-bs-placement="top">
+                            <i class="bi bi-eraser-fill"></i>
+                        </button>
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('text')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Texto"
+                            data-bs-placement="top">
+                            <i class="bi bi-alphabet-uppercase"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="btn-group d-block">
-                    <button
+                <div class="text-center mt-2">
+                    <label class="form-label mb-2 text-white">Tamaño Borrador</label>
+                    <div class="btn-group btn-group-sm d-block">
+                        <button
                         class="btn btn-outline-light btn-sm"
-                        (click)="selectShape('pencil')"
+                        (click)="cambiarBorrador('+')"
                         data-bs-toggle="popover"
-                        data-bs-content="Lápiz"
-                        data-bs-placement="top">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button
+                        data-bs-content="incrementar borrador"
+                        data-bs-placement="bottom"
+                        [disabled]="selectedShape!='eraser'">
+                            +
+                        </button>
+                        <button
                         class="btn btn-outline-light btn-sm"
-                        (click)="selectShape('fill')"
+                        (click)="cambiarBorrador('-')"
                         data-bs-toggle="popover"
-                        data-bs-content="Relleno"
-                        data-bs-placement="top">
-                        <i class="bi bi-paint-bucket"></i>
-                    </button>
-                    <button
-                        class="btn btn-outline-light btn-sm"
-                        (click)="selectShape('eraser')"
-                        data-bs-toggle="popover"
-                        data-bs-content="Borrador"
-                        data-bs-placement="top">
-                        <i class="bi bi-eraser-fill"></i>
-                    </button>
-                    <button
-                        class="btn btn-outline-light btn-sm"
-                        (click)="selectShape('text')"
-                        data-bs-toggle="popover"
-                        data-bs-content="Texto"
-                        data-bs-placement="top">
-                        <i class="bi bi-alphabet-uppercase"></i>
-                    </button>
+                        data-bs-content="disminuir borrador"
+                        data-bs-placement="bottom"
+                        [disabled]="selectedShape!='eraser'">
+                            -
+                        </button>
+                    </div>
                 </div>
             </li>
             <!-- FORMAS  -->

@@ -33,6 +33,7 @@ export class MenuHerramientasComponent implements OnInit, AfterViewInit{
   @Output() estilosTrazo = new EventEmitter<any>();
   @Output() estilosTexto = new EventEmitter<any>();
   @Output() guardar = new EventEmitter<string>();
+  @Output() modificarBorrador = new EventEmitter<string>();
 
   selectedShape: string = 'line';
 
@@ -159,6 +160,10 @@ export class MenuHerramientasComponent implements OnInit, AfterViewInit{
   de texto seleccionado cuando hay un cambio */
   enviarEstilosText(){
     this.estilosTexto.emit(this.formStylesText.value);
+  }
+
+  cambiarBorrador(acto:string){
+    this.modificarBorrador.emit(acto);
   }
 
   // metodo para modificar los estilos de los iconos creados con svg

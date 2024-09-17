@@ -46,5 +46,11 @@ export class EditarDibujoComponent implements OnInit{
     // llamo al metodo saveDraw que se encuentra en el componente hijo canvas
     this.canvasChild.saveDraw(name,'update');
   }
+
+  // metodo para modificar el tamaño del borrador, llamado desde el componente hijo menu-herramientas
+  updateEraser(acto:string){
+    // acto: + o -
+    this.canvasChild.updateSizeEraser(acto);
+  }
   // 
 }
