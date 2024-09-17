@@ -17,16 +17,36 @@
                     <label class="form-label mb-2 text-white">Herramientas</label>
                 </div>
                 <div class="btn-group d-block">
-                    <button class="btn btn-outline-light btn-sm" (click)="selectShape('pencil')">
+                    <button
+                        class="btn btn-outline-light btn-sm"
+                        (click)="selectShape('pencil')"
+                        data-bs-toggle="popover"
+                        data-bs-content="Lápiz"
+                        data-bs-placement="top">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-outline-light btn-sm" (click)="selectShape('fill')">
+                    <button
+                        class="btn btn-outline-light btn-sm"
+                        (click)="selectShape('fill')"
+                        data-bs-toggle="popover"
+                        data-bs-content="Relleno"
+                        data-bs-placement="top">
                         <i class="bi bi-paint-bucket"></i>
                     </button>
-                    <button class="btn btn-outline-light btn-sm" (click)="selectShape('eraser')">
+                    <button
+                        class="btn btn-outline-light btn-sm"
+                        (click)="selectShape('eraser')"
+                        data-bs-toggle="popover"
+                        data-bs-content="Borrador"
+                        data-bs-placement="top">
                         <i class="bi bi-eraser-fill"></i>
                     </button>
-                    <button class="btn btn-outline-light btn-sm" (click)="selectShape('text')">
+                    <button
+                        class="btn btn-outline-light btn-sm"
+                        (click)="selectShape('text')"
+                        data-bs-toggle="popover"
+                        data-bs-content="Texto"
+                        data-bs-placement="top">
                         <i class="bi bi-alphabet-uppercase"></i>
                     </button>
                 </div>
@@ -189,16 +209,44 @@
                     <div class="text-center">
                         <div class="btn-group btn-group-sm mt-1">
                             <input type="checkbox" formControlName="negrita" class="btn-check" id="negrita">
-                            <label class="btn btn-outline-light" for="negrita"><strong>N</strong></label>
+                            <label
+                                class="btn btn-outline-light"
+                                for="negrita"
+                                data-bs-toggle="popover"
+                                data-bs-content="Negrita"
+                                data-bs-placement="top">
+                                <strong>N</strong>
+                            </label>
     
                             <input type="checkbox" formControlName="italica" class="btn-check" id="italica">
-                            <label class="btn btn-outline-light" for="italica"><em>K</em></label>
+                            <label
+                                class="btn btn-outline-light"
+                                for="italica"
+                                data-bs-toggle="popover"
+                                data-bs-content="Itálica"
+                                data-bs-placement="top">
+                                <em>K</em>
+                            </label>
     
                             <input type="checkbox" formControlName="subrayado" class="btn-check" id="subrayado">
-                            <label class="btn btn-outline-light" for="subrayado"><u>S</u></label>
+                            <label
+                                class="btn btn-outline-light"
+                                for="subrayado"
+                                data-bs-toggle="popover"
+                                data-bs-content="Subrayado"
+                                data-bs-placement="top">
+                                <u>S</u>
+                            </label>
     
                             <input type="checkbox" formControlName="tachado" class="btn-check" id="tachado">
-                            <label class="btn btn-outline-light" for="tachado"><del>S</del></label>
+                            <label
+                                class="btn btn-outline-light"
+                                for="tachado"
+                                data-bs-toggle="popover"
+                                data-bs-content="Tachado"
+                                data-bs-placement="top">
+                                <del>S</del>
+                            </label>
     
                             <input class="btn-check" formControlName="relleno" type="checkbox" id="relleno">
                             <label for="relleno" class="btn btn-outline-light">&nbsp;Relleno</label>
@@ -211,10 +259,22 @@
             <li class="nav-item mt-4 mt-md-2 mt-lg-0 mx-auto d-block px-sm-0 px-md-0 px-lg-3 border-lg-end">
                 <label class="form-label mb-2 text-white mx-auto">Acciones</label>
                 <div class="mb-3 btn-group d-block">
-                    <button class="btn btn-outline-light btn-sm" (click)="consultaEliminar()">
+                    <!-- eliminar dibujo -->
+                    <button 
+                        class="btn btn-outline-light btn-sm" 
+                        (click)="consultaEliminar()"
+                        data-bs-toggle="popover"
+                        data-bs-content="Eliminar dibujo"
+                        data-bs-placement="top">
                         <i class="bi bi-trash"></i>
                     </button>
-                    <button class="btn btn-outline-light btn-sm" (click)="guardarDibujo()">
+                    <!-- guardar dibujo -->
+                    <button 
+                        class="btn btn-outline-light btn-sm" 
+                        (click)="guardarDibujo()"
+                        data-bs-toggle="popover"
+                        data-bs-placement="top"
+                        id="save">
                         <i class="bi bi-floppy"></i>
                     </button>
                 </div>

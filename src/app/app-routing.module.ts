@@ -14,8 +14,7 @@ const routes: Routes = [
     path:'',
     loadChildren: () => import('./components/create/create.module').then(
       m => m.CreateModule
-    ),
-    canActivate:[LoginGuard]
+    )
   },
   {
     path:'',

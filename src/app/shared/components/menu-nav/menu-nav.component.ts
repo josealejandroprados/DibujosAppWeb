@@ -34,7 +34,7 @@ export class MenuNavComponent implements OnInit{
     private router: Router,
     private data:DataService
   ){}
-
+  
   // metodo para cerrar sesión
   logout(){
     this.auth.logout()

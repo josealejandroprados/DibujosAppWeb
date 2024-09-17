@@ -1,16 +1,19 @@
-import { Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalConsultaComponent } from '../modal-consulta/modal-consulta.component';
 import { ModalSaveComponent } from '../modal-save/modal-save.component';
 import { ModalConsulta } from '../../models/modal.consulta.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import Popover from 'bootstrap/js/dist/popover';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-menu-herramientas',
   templateUrl: './menu-herramientas.component.html',
   styleUrls: ['./menu-herramientas.component.css']
 })
-export class MenuHerramientasComponent implements OnInit{
+export class MenuHerramientasComponent implements OnInit, AfterViewInit{
 
   // accedo al componente hijo modalConsulta para usar su metodo abrirModal
   @ViewChild(ModalConsultaComponent) modalConsulta!:ModalConsultaComponent;
@@ -57,15 +60,47 @@ export class MenuHerramientasComponent implements OnInit{
 
     // obtengo ruta actual
     this.currentRoute = this.router.url;
+    // 
   }
   constructor(
-    private router:Router
+    private router:Router,
+    private auth:AuthService
   ){}
+
+  ngAfterViewInit(): void {
+    // cuando todos los elementos del DOM estén listos => agrego popovers, llamo al método addPopovers
+    this.addPopovers();
+  }
+
+  // metodo para agregar popovers a los botones
+  private addPopovers(){
+    // boton guardar dibujo
+    // obtengo referencia al boton guardar
+    const btnSave = document.getElementById('save');
+    // modifico el atributo data-bs-content del boton guardar según el usuario esté logueado o no
+    if(!this.estaLogueado()){
+      // si no está logueado
+      btnSave?.setAttribute('data-bs-content','¡Es necesario iniciar sesión para guardar dibujo!');
+    }
+    else{
+      // si está logueado
+      btnSave?.setAttribute('data-bs-content','Guardar dibujo');
+    }
+
+    // agrego los popovers a los botones que tengan el atributo data-bs-toggle="popover"
+    Array.from(document.querySelectorAll('[data-bs-toggle="popover"]')).forEach(
+      popoverNode => new Popover(popoverNode,{
+        trigger:'hover',
+        container:'body'
+      })
+    );
+  }
 
   // llamar al metodo guardarDibujo cuando se presiona Ctrl + S en el teclado
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    if (event.ctrlKey && event.key === 's') {
+    if (event.ctrlKey && event.key === 's' && this.estaLogueado()) {
+      // si presiono Ctrl + S y ademas estoy logueado => abrir modal
       event.preventDefault(); // Evita la acción por defecto del navegador
       this.guardarDibujo();
     }
@@ -73,13 +108,17 @@ export class MenuHerramientasComponent implements OnInit{
 
   // metodo que abre el modal de guardar
   guardarDibujo(){
-    if(this.currentRoute==='/dibujar'){
-      // en este caso estamos en el componente dibujar y quiero guardar un nuevo dibujo
-      this.modalGuardar.abrirModalGuardar();
-    }
-    else{
-      // en este caso estamos en el componente update y solo quiero guardar los cambios
-      this.saveImage('');
+    /* primero verifico que el usuario esté logueado
+    si no está logueado => No puede guardar dibujo */
+    if(this.estaLogueado()){
+      if(this.currentRoute==='/dibujar'){
+        // en este caso estamos en el componente dibujar y quiero guardar un nuevo dibujo
+        this.modalGuardar.abrirModalGuardar();
+      }
+      else{
+        // en este caso estamos en el componente update y solo quiero guardar los cambios
+        this.saveImage('');
+      }
     }
   }
 
@@ -198,6 +237,11 @@ export class MenuHerramientasComponent implements OnInit{
     trapezoid?.addEventListener('mouseout', () => {
       polygonTrapezoid?.setAttribute("stroke","white");
     });
+  }
+
+  // metodo que devuelve true o false si el usuario se ha logueado
+  estaLogueado(){
+    return this.auth.estalogueado();
   }
   // 
 }
