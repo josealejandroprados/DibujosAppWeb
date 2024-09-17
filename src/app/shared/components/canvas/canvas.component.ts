@@ -392,12 +392,14 @@ export class CanvasComponent implements OnInit, AfterViewInit{
           nombre = this.dataImageUpdate.nombre;
         }
 
+        // llamo al servicio para agregar el dibujo a Storage
         this.data.addImageToFirebaseStorage(filePath,blob)
         .then(async response => {
-          // console.log(response);
+          console.log(response);
 
           // obtener url
           const url = await this.data.getUrlImage(filePath);
+          console.log('url obtenida: ',url)
 
           // guardar en BBDD de FireStore
           const obj = {
@@ -408,22 +410,35 @@ export class CanvasComponent implements OnInit, AfterViewInit{
           
           if(accion=='create'){
             // si es create => guardar registro nuevo en Firestore
-            await this.data.saveInFirestore(obj);
+            this.data.saveInFirestore(obj)
+            .then(response => {
+              
+              // si es create el texto del modal será
+              this.modalComplete.hab_btn = true;
+              this.modalComplete.textoBodyModal = 'Imagen guardada con exito';
+              console.log('imagen guardada con exito',response);
+            })
+            .catch(error => {
+              console.log('ha ocurrido un error al cargar la imagen',error);
+              this.modalComplete.textoBodyModal = 'Error al guardar la imagen';
+              this.modalComplete.hab_btn = true;
+            });
           }
           else{
             // si es update => actualizar registro existente con su id
-            await this.data.updateInFirestore(obj,this.id);
+            await this.data.updateInFirestore(obj,this.id)
+            .then(response => {
+              // si es update el texto del modal será
+              this.modalComplete.hab_btn = true;
+              this.modalComplete.textoBodyModal = 'Imagen actualizada con exito';
+            })
+            .catch(error => {
+              console.log('ha ocurrido un error al cargar la imagen',error);
+              this.modalComplete.textoBodyModal = 'Error al guardar la imagen';
+              this.modalComplete.hab_btn = true;
+            });
           }
-          
-          if(accion=='create'){
-            // si es create el texto del modal será
-            this.modalComplete.textoBodyModal = 'Imagen guardada con exito';
-          }
-          else{
-            // si es update el texto del modal será
-            this.modalComplete.textoBodyModal = 'Imagen actualizada con exito';
-          }
-          this.modalComplete.hab_btn = true;
+          // 
         })
         .catch(error => {
           console.log(error);
