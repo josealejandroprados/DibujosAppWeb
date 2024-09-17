@@ -1,6 +1,8 @@
 <article class="container mt-4 p-4">
 
-    <h4 class="text-primary text-center mb-4">Lista de Imagenes</h4>
+    <h4 class="text-primary text-center mb-4" #listadibujos>
+        Lista de Imagenes
+    </h4>
 
     <div class="table-responsive">
         <table class="table table-hover">
@@ -12,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let imag of imagenes">
+                <tr *ngFor="let imag of imagenes | paginate: { itemsPerPage: 4, currentPage: num_pag }">
                     <td>{{imag.nombre}}</td>
                     <td>
                         <img src="{{imag.url}}" alt="" width="200px" class="img-thumbnail">
@@ -40,6 +42,11 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <pagination-controls class="my-pagination" (pageChange)="onPageChange($event)" previousLabel="Anterior" nextLabel="Siguiente">
+        </pagination-controls>
     </div>
 
 </article>

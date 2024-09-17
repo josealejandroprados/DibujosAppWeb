@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalCargaInicialComponent } from 'src/app/shared/components/modal-carga-inicial/modal-carga-inicial.component';
 import { ModalConsultaComponent } from 'src/app/shared/components/modal-consulta/modal-consulta.component';
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
@@ -41,6 +41,11 @@ export class ListaDibujosComponent implements OnInit{
 
   // accedo al componente hijo ModalCargaInicial para usar su metodo abrirModal al cargar la pagina
   @ViewChild(ModalCargaInicialComponent) modalInicio!:ModalCargaInicialComponent;
+
+  // pagination
+  num_pag:number=1;
+  // obtengo referencia del titulo de la tabla
+  @ViewChild('listadibujos', { static: false }) tituloListaDibujos!: ElementRef;
 
   ngOnInit(): void {
     // obtener todos los registros de las imagenes guardas en firestore
@@ -125,5 +130,13 @@ export class ListaDibujosComponent implements OnInit{
       window.URL.revokeObjectURL(urlBlob); // Libera la URL temporal
     })
     .catch(error => console.error('Error al descargar la imagen', error));
+  }
+
+  // metodo para cambiar de página
+  onPageChange(pageNumber:number){
+    this.num_pag = pageNumber;
+
+    // desplazo la vista hacia el div que está justo antes de la tabla
+    this.tituloListaDibujos.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
 }
