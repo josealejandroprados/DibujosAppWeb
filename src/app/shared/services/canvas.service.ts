@@ -143,8 +143,8 @@ export class CanvasService {
   }
 
   // borrar
-  erase(x: number, y: number, ctx:CanvasRenderingContext2D) {
-    const eraserSize = 10;  // Tamaño del borrador
+  erase(x: number, y: number, ctx:CanvasRenderingContext2D, size:number) {
+    const eraserSize = size;  // Tamaño del borrador
     ctx.clearRect(x, y, eraserSize, eraserSize);
   }
 

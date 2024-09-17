@@ -53,6 +53,9 @@ export class CanvasComponent implements OnInit, AfterViewInit{
 
   stylesText = new StylesText(); //estilos para el texto
 
+  // variable para el tamaño del borrador
+  eraserSize:number=10;
+
   /* 
   id de un dibujo guardado previamente, esto se usará en caso de que estemos en el componente
   editar-dibujo para obtener el dibujo y cargarlo en el canvas
@@ -228,7 +231,8 @@ export class CanvasComponent implements OnInit, AfterViewInit{
       }
       else if(this.selectedShape === 'eraser'){
         // llamo al metodo para borrar
-        this.canv.erase(this.startX, this.startY,this.ctx);
+        this.canv.erase(this.startX, this.startY,this.ctx, this.eraserSize);
+        console.log(this.canvas.nativeElement.style.cursor)
       }
       else if(this.selectedShape === 'fill'){
         // llamo al metodo para rellenar
@@ -258,7 +262,7 @@ export class CanvasComponent implements OnInit, AfterViewInit{
         this.canv.drawPencil(event.offsetX, event.offsetY,this.ctx, this.stylesLine);
       }
       else if(this.selectedShape === 'eraser'){
-        this.canv.erase(event.offsetX,event.offsetY, this.ctx);
+        this.canv.erase(event.offsetX,event.offsetY, this.ctx, this.eraserSize);
       }
       else{
         // en este caso estoy dibujando una de las figuras
@@ -292,15 +296,31 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     this.saveCanvasImage();
   }
 
+  // evento para modificar el tamaño del borrador (eraser)
+  @HostListener('window:keydown', ['$event'])
+  aumentarBorrador(event:KeyboardEvent){
+    if(event.key === '+' && this.eraserSize <40){
+      // incrementar tamaño del borrador sin superar el maximo de 40
+      this.eraserSize += 10;
+      this.updateIconEraser(); //modificar icono del borrador
+    }
+    if(event.key === '-' && this.eraserSize>10){
+      // decrementar tamaño del borrador sin bajar del minimo de 10
+      this.eraserSize -= 10;
+      this.updateIconEraser(); //modificar icono del borrador
+    }    
+  }
+
   // actualizar icono del cursor segun la forma o herramienta a usar
   updateCursor() {
     const canvasElement = this.canvas.nativeElement;
     switch (this.selectedShape) {
       case 'pencil':
-        canvasElement.style.cursor = 'url(assets/images/iconos/lapiz.png), auto'; // Personaliza el cursor de lápiz
+        canvasElement.style.cursor = 'url(assets/images/iconos/lapiz.png), auto';
         break;
       case 'eraser':
-        canvasElement.style.cursor = 'url(assets/images/iconos/borrador1.jpg), auto'; // Personaliza el cursor de borrador
+        canvasElement.style.cursor = 'url(assets/images/iconos/borrador10.jpg), auto';
+        this.eraserSize = 10;
         break;
       case 'fill':
         canvasElement.style.cursor = 'url(assets/images/iconos/bote-de-pintura.png), auto';
@@ -310,6 +330,25 @@ export class CanvasComponent implements OnInit, AfterViewInit{
         break;
       default:
         canvasElement.style.cursor = 'pointer';
+        break;
+    }
+  }
+
+  // metodo para modificar icono del borrador
+  updateIconEraser(){
+    // modificar el cursor según el tamaño
+    switch (this.eraserSize){
+      case 10:
+        this.canvas.nativeElement.style.cursor = 'url(assets/images/iconos/borrador10.jpg), auto';
+        break;
+      case 20:
+        this.canvas.nativeElement.style.cursor = 'url(assets/images/iconos/borrador20.jpg), auto';
+        break;
+      case 30:
+        this.canvas.nativeElement.style.cursor = 'url(assets/images/iconos/borrador30.jpg), auto';
+        break;
+      case 40:
+        this.canvas.nativeElement.style.cursor = 'url(assets/images/iconos/borrador40.jpg), auto';
         break;
     }
   }
