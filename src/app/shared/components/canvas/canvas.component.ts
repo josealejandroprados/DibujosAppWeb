@@ -212,7 +212,7 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     }
   }
 
-  // escuchamos el evento mousedown con el decorador
+  // escuchamos el evento mousedown con el decorador, dibujando con el mouse
   @HostListener('mousedown', ['$event'])
   onMouseDown(event:MouseEvent){
     // hemos presionado el boton del mouse
@@ -223,64 +223,137 @@ export class CanvasComponent implements OnInit, AfterViewInit{
       // defino el punto de arranque
       this.startX = event.offsetX;
       this.startY = event.offsetY;
-      // console.log(this.startX,this.startY,'probando')
 
-      if (this.selectedShape === 'pencil') {
-        // si dibujo con el lapiz, llamo al metodo drawPencil
-        this.canv.drawPencil(this.startX,this.startY,this.ctx,this.stylesLine);
-      }
-      else if(this.selectedShape === 'eraser'){
-        // llamo al metodo para borrar
-        this.canv.erase(this.startX, this.startY,this.ctx, this.eraserSize);
-        console.log(this.canvas.nativeElement.style.cursor)
-      }
-      else if(this.selectedShape === 'fill'){
-        // llamo al metodo para rellenar
-        this.canv.fillArea(this.startX+22,this.startY+24,this.stylesLine.color,this.canvas,this.ctx);
-      }
-      else if(this.selectedShape === 'text'){
-        // abrir modal texto
-        this.modalText.abrirModal();
-      }
-      else{
-        // en este caso estoy dibujando una figura
-        // Guardar el canvas actual
-        this.backupImage = this.ctx.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-      }
+      // inicio dibujo
+      this.startDraw();
     }
     
   }
 
+  // escuchamos el evento touchstart, dibujando con un dedo desde un movil
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent){
+    // hemos presionado el dedo en la pantalla
+    // verifico si el dedo tocó sobre el lienzo
+    if(this.canvas.nativeElement===event.target){
+      // cambio la prop estaDibujando a true para indicar que estoy dibujando
+      this.estaDibujando = true;
+      const touch = event.touches[0];
+      // defino el punto de arranque
+      this.startX = touch.clientX - this.canvas.nativeElement.offsetLeft;
+      this.startY = touch.clientY - this.canvas.nativeElement.offsetTop;
+
+      // inicio dibujo
+      this.startDraw();
+    }
+  }
+
+  // metodo que se llama para comenzar dibujo desde onTouchStart (movil) o onMouseDown (PC)
+  private startDraw(){
+    if (this.selectedShape === 'pencil') {
+      // si dibujo con el lapiz, llamo al metodo drawPencil
+      this.canv.drawPencil(this.startX,this.startY,this.ctx,this.stylesLine);
+    }
+    else if(this.selectedShape === 'eraser'){
+      // llamo al metodo para borrar
+      this.canv.erase(this.startX, this.startY,this.ctx, this.eraserSize);
+      console.log(this.canvas.nativeElement.style.cursor)
+    }
+    else if(this.selectedShape === 'fill'){
+      // llamo al metodo para rellenar
+      this.canv.fillArea(this.startX+22,this.startY+24,this.stylesLine.color,this.canvas,this.ctx);
+    }
+    else if(this.selectedShape === 'text'){
+      // abrir modal texto
+      this.modalText.abrirModal();
+    }
+    else{
+      // en este caso estoy dibujando una figura
+      // Guardar el canvas actual
+      this.backupImage = this.ctx.getImageData(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    }
+  }
+
+  // evento mover el mouse
   @HostListener('mousemove',['$event'])
   onMouseMove(event:MouseEvent){
     // evaluo si estoy dibujando(boton mouse presionado)
     if(this.estaDibujando){
-      if (this.selectedShape === 'pencil') {
-        // en este caso estoy dibujando con el lapiz
+      // defino punto actual
+      var currentX = event.offsetX,
+          currentY = event.offsetY;
 
-        // llamo al metodo drawPencil con las coordenadas actuales del mouse
-        this.canv.drawPencil(event.offsetX, event.offsetY,this.ctx, this.stylesLine);
-      }
-      else if(this.selectedShape === 'eraser'){
-        this.canv.erase(event.offsetX,event.offsetY, this.ctx, this.eraserSize);
-      }
-      else{
-        // en este caso estoy dibujando una de las figuras
-        this.restoreCanvas();
-
-        this.canv.drawShape(this.startX, this.startY, event.offsetX, event.offsetY, true, this.ctx, this.selectedShape,this.stylesLine);
-      }
+      // dibujar con el movimiento del mouse
+      this.moveDraw(currentX,currentY);
     }
   }
 
+  // evento mover el dedo
+  @HostListener('touchmove', ['$event'])
+  onTouchMove(event: TouchEvent){
+    // evaluo si estoy dibujando(dedo presionando pantalla)
+    if(this.estaDibujando){
+      event.preventDefault();  // Evitar el scroll mientras dibujas
+      const touch = event.touches[0];
+      // defino punto actual
+      var currentX = touch.clientX - this.canvas.nativeElement.offsetLeft,
+          currentY = touch.clientY - this.canvas.nativeElement.offsetTop;
+
+      // dibujar con el movimiento del dedo
+      this.moveDraw(currentX,currentY);
+    }
+  }
+
+  // metodo que va dibujando mientras movemos el dedo (movil) o el mouse (PC)
+  private moveDraw(currentX:number, currentY:number){
+    if (this.selectedShape === 'pencil') {
+      // en este caso estoy dibujando con el lapiz
+
+      // llamo al metodo drawPencil con las coordenadas actuales del mouse
+      this.canv.drawPencil(currentX, currentY,this.ctx, this.stylesLine);
+    }
+    else if(this.selectedShape === 'eraser'){
+      this.canv.erase(currentX, currentY, this.ctx, this.eraserSize);
+    }
+    else{
+      // en este caso estoy dibujando una de las figuras
+      this.restoreCanvas();
+
+      this.canv.drawShape(this.startX, this.startY, currentX, currentY, true, this.ctx, this.selectedShape,this.stylesLine);
+    }
+  }
+
+  // evento soltar el click
   @HostListener('mouseup',['$event'])
   onMouseUp(event:MouseEvent){
     // si dejo de presionar el boton del mouse, cambio la prop estaDibujando a false
+    // defino punto final
+    const endX = event.offsetX;
+    const endY = event.offsetY;
+    
+    // realizar el dibujo final
+    this.endDraw(endX,endY);
+  }
+
+  // evento levantar el dedo de la pantalla
+  @HostListener('touchend', ['$event'])
+  onTouchEnd(event: TouchEvent){
+    const touch = event.touches[0];
+    // defino el punto final
+    const endX = touch.clientX - this.canvas.nativeElement.offsetLeft;
+    const endY = touch.clientY - this.canvas.nativeElement.offsetTop;
+
+    // realizar el dibujo final
+    this.endDraw(endX,endY);
+  }
+
+  // metodo que hace el dibujo final cuando se levanta el dedo (teléfono movil) o se levanta el click(PC)
+  private endDraw(endX:number, endY:number){
     if (this.estaDibujando && this.selectedShape !== 'pencil' && this.selectedShape!=='eraser' 
       && this.selectedShape!=='fill' && this.selectedShape!=='text') {
       this.restoreCanvas();
-      const endX = event.offsetX;
-      const endY = event.offsetY;
+      
+      // dibujar figura
       this.canv.drawShape(this.startX, this.startY, endX, endY, false, this.ctx, this.selectedShape, this.stylesLine);
       // 
     }
