@@ -39,6 +39,7 @@ export class CanvasComponent implements OnInit, AfterViewInit{
   private ctx!:CanvasRenderingContext2D;
   // defino una propiedad para saber si estoy dibujando
   private estaDibujando:boolean = false;
+
   // (startX,startY): punto de inicio de dibujo
   private startX = 0;
   private startY = 0;
@@ -234,18 +235,29 @@ export class CanvasComponent implements OnInit, AfterViewInit{
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent){
     // hemos presionado el dedo en la pantalla
-    // verifico si el dedo tocó sobre el lienzo
-    if(this.canvas.nativeElement===event.target){
-      // cambio la prop estaDibujando a true para indicar que estoy dibujando
-      this.estaDibujando = true;
-      const touch = event.touches[0];
-      // defino el punto de arranque
-      this.startX = touch.clientX - this.canvas.nativeElement.offsetLeft;
-      this.startY = touch.clientY - this.canvas.nativeElement.offsetTop;
+    // verifico si es un dedo el que toco la pantalla
+    if(event.touches.length===1){
 
-      // inicio dibujo
-      this.startDraw();
+      // verifico si el dedo tocó sobre el lienzo
+      if(this.canvas.nativeElement===event.target){
+        // cambio la prop estaDibujando a true para indicar que estoy dibujando
+        this.estaDibujando = true;
+        const touch = event.touches[0];
+        // Obtener las coordenadas correctas tomando en cuenta el desplazamiento del canvas
+        const rect = this.canvas.nativeElement.getBoundingClientRect();
+        // defino el punto de arranque
+        this.startX = touch.clientX - rect.left;
+        this.startY = touch.clientY - rect.top;
+
+        // inicio dibujo
+        this.startDraw();
+      }
     }
+    else{
+      // mas de un dedo todo la pantalla => se está intentando mover la pantalla, no dibujar
+      this.estaDibujando = false;
+    }
+    
   }
 
   // metodo que se llama para comenzar dibujo desde onTouchStart (movil) o onMouseDown (PC)
@@ -291,16 +303,27 @@ export class CanvasComponent implements OnInit, AfterViewInit{
   // evento mover el dedo
   @HostListener('touchmove', ['$event'])
   onTouchMove(event: TouchEvent){
-    // evaluo si estoy dibujando(dedo presionando pantalla)
-    if(this.estaDibujando){
-      event.preventDefault();  // Evitar el scroll mientras dibujas
-      const touch = event.touches[0];
-      // defino punto actual
-      var currentX = touch.clientX - this.canvas.nativeElement.offsetLeft,
-          currentY = touch.clientY - this.canvas.nativeElement.offsetTop;
+    // verifico si mas de un dedo está tocando la pantalla
+    if(event.touches.length===1){
+      // evaluo si estoy dibujando(dedo presionando pantalla)
+      if(this.estaDibujando){
+        event.preventDefault();  // Evitar el scroll mientras dibujas
+        const touch = event.touches[0];
+        
+        // Obtener las coordenadas correctas tomando en cuenta el desplazamiento del canvas
+        const rect = this.canvas.nativeElement.getBoundingClientRect();
 
-      // dibujar con el movimiento del dedo
-      this.moveDraw(currentX,currentY);
+        // defino punto actual
+        var currentX = touch.clientX - rect.left,
+            currentY = touch.clientY - rect.top;
+
+        // dibujar con el movimiento del dedo
+        this.moveDraw(currentX,currentY);
+      }
+    }
+    else{
+      // si mas de un dedo está tocando la pantalla => no dibujar, se está moviendo la pantalla
+      this.estaDibujando = false;
     }
   }
 
@@ -339,9 +362,13 @@ export class CanvasComponent implements OnInit, AfterViewInit{
   @HostListener('touchend', ['$event'])
   onTouchEnd(event: TouchEvent){
     const touch = event.touches[0];
+
+    // Obtener las coordenadas correctas tomando en cuenta el desplazamiento del canvas
+    const rect = this.canvas.nativeElement.getBoundingClientRect();
+
     // defino el punto final
-    const endX = touch.clientX - this.canvas.nativeElement.offsetLeft;
-    const endY = touch.clientY - this.canvas.nativeElement.offsetTop;
+    const endX = touch.clientX - rect.left;
+    const endY = touch.clientY - rect.top;
 
     // realizar el dibujo final
     this.endDraw(endX,endY);
@@ -367,6 +394,8 @@ export class CanvasComponent implements OnInit, AfterViewInit{
     
     // guardar imagen en sessionStorage
     this.saveCanvasImage();
+    this.startX=-1;
+    this.startY=-1;
   }
 
   // evento para modificar el tamaño del borrador (eraser)
