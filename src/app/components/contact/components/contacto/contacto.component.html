@@ -1,0 +1,63 @@
+<section class="container mt-auto mb-auto p-4 row mx-auto">
+    <div class="card rounded col-12 col-md-9 col-lg-7 mx-auto">
+        <div class="card-body">
+            <h4 class="text-primary text-center mt-4 mb-4">Contáctame</h4>
+
+            <form (ngSubmit)="enviarEmail()" [formGroup]="formEmail">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" formControlName="nombre" name="nombre" id="nombre" class="form-control form-control-sm" placeholder="Por favor ingrese su nombre">
+                </div>
+                <div class="alert alert-danger" [hidden]="nombre.valid || (nombre.pristine && nombre.untouched)">
+                    El nombre es Obligatorio
+                </div>
+
+                <div class="mb-3">
+                    <label for="email_user" class="form-label">Su email</label>
+                    <input type="email" formControlName="email_user" name="email_user" id="email_user" class="form-control form-control-sm" placeholder="Por favor ingrese su email">
+                </div>
+                <div class="alert alert-danger" [hidden]="email_user.valid || (email_user.pristine && email_user.untouched)">
+                    <span *ngIf="email_user.errors?.['required']">
+                        El email es obligatorio
+                    </span>
+                    <span *ngIf="email_user.errors?.['email']">
+                        El email debe ser valido
+                    </span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="tel" formControlName="telefono" name="telefono" id="telefono" class="form-control form-control-sm">
+                    <div id="passwordHelpBlock" class="form-text">
+                        Opcional
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="asunto" class="form-label">Asunto</label>
+                    <input type="text" formControlName="asunto" class="form-control form-control-sm" name="asunto" id="asunto">
+                </div>
+                <div class="alert alert-danger" [hidden]="asunto.valid || (asunto.pristine && asunto.untouched)">
+                    El asunto es obligatorio
+                </div>
+
+                <div class="mb-3">
+                    <label for="mensaje" class="form-label">Mensaje</label>
+                    <textarea formControlName="mensaje" name="mensaje" id="mensaje" rows="10" class="form-control form-control-sm" placeholder="Por favor ingrese aquí su mensaje"></textarea>
+                </div>
+                <div class="alert alert-danger" [hidden]="mensaje.valid || (mensaje.pristine && mensaje.untouched)">
+                    El mensaje es Obligatorio
+                </div>
+
+                <div class="mb-3 d-grid gap-2">
+                    <button class="btn btn-outline-primary" type="submit" [disabled]="formEmail.invalid">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<app-modal [modalAccion]="modalContact" (complete)="aceptar()"></app-modal>

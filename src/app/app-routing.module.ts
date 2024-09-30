@@ -12,6 +12,12 @@ const routes: Routes = [
   },
   {
     path:'',
+    loadChildren: () => import('./components/contact/contact.module').then(
+      m => m.ContactModule
+    )
+  },
+  {
+    path:'',
     loadChildren: () => import('./components/create/create.module').then(
       m => m.CreateModule
     )

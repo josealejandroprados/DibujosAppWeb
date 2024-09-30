@@ -13,7 +13,8 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
-
+import { HttpClientModule } from '@angular/common/http';
+import { ContactService } from './shared/services/contact.service';
 @NgModule({
   declarations: [
     AppComponent
@@ -25,13 +26,15 @@ import { environment } from 'src/environments/environment';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    HttpClientModule
   ],
   providers: [
     AuthService,
     CanvasService,
     DataService,
-    CookieService
+    CookieService,
+    ContactService
   ],
   bootstrap: [AppComponent]
 })
