@@ -1,4 +1,34 @@
-<app-menu-herramientas (modificarBorrador)="updateEraser($event)" (guardar)="saveDraw($event)" (estilosTexto)="recibirEstilosTexto($event)" (estilosTrazo)="recibirEstilos($event)" (formaSeleccionada)="selectShape($event)" (eliminarDibujo)="BorrarDibujo()"></app-menu-herramientas>
 
+<main #mainElement>
+    <!-- formato de la pantalla cuando la pantalla tenga un tamaño superior a 991px (pantalla grande) -->
+    <section class="row" *ngIf="!pantallaChica; else pantallaSm">
+        <section class="col-3 p-0 bg-menu" #sectionMenuVertical>
+            <app-menu-herramientas-vertical
+                (modificarBorrador)="updateEraser($event)"
+                (guardar)="saveDraw($event)"
+                (estilosTexto)="recibirEstilosTexto($event)"
+                (estilosTrazo)="recibirEstilos($event)"
+                (formaSeleccionada)="selectShape($event)"
+                (eliminarDibujo)="BorrarDibujo()">
+            </app-menu-herramientas-vertical>
+        </section>
+        <section class="col-9 p-0">
+            <app-canvas></app-canvas>
+        </section>
+    </section>
 
-<app-canvas></app-canvas>
+    <!-- formato de la pantalla cuando la pantalla tenga un tamaño inferior a 991px (pantalla pequeña)-->
+    <ng-template #pantallaSm>
+        <app-menu-herramientas 
+            (modificarBorrador)="updateEraser($event)"
+            (guardar)="saveDraw($event)"
+            (estilosTexto)="recibirEstilosTexto($event)"
+            (estilosTrazo)="recibirEstilos($event)"
+            (formaSeleccionada)="selectShape($event)"
+            (eliminarDibujo)="BorrarDibujo()">
+        </app-menu-herramientas>
+    
+        <app-canvas></app-canvas>
+    </ng-template>
+</main>
+

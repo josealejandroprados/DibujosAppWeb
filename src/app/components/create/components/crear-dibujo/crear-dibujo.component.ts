@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CanvasComponent } from 'src/app/shared/components/canvas/canvas.component';
 import { StylesLine } from 'src/app/shared/models/styles.line';
 import { StylesText } from 'src/app/shared/models/styles.text';
@@ -8,15 +8,51 @@ import { StylesText } from 'src/app/shared/models/styles.text';
   templateUrl: './crear-dibujo.component.html',
   styleUrls: ['./crear-dibujo.component.css']
 })
-export class CrearDibujoComponent implements OnInit{
+export class CrearDibujoComponent implements OnInit, AfterViewInit{
 
   // accedo al componente hijo canvas
   @ViewChild(CanvasComponent) canvasChild!:CanvasComponent;
+
+  @ViewChild('mainElement') mainElem !: ElementRef<HTMLElement>;
+
+  pantallaChica!:boolean;
   
   constructor(){}
 
+  ngAfterViewInit(): void {
+    // Detectar el tamaño de la pantalla al iniciar la aplicación
+    const windowWidth = window.innerWidth;
+    if(windowWidth<=991){
+      this.pantallaChica = true;
+    }
+    else{
+      this.pantallaChica = false;
+      this.mainElem.nativeElement.classList.add('container-fluid');
+    }
+  }
+
   ngOnInit(): void {
     // 
+  }
+
+  // detectar cambios en las dimensiones de la pantalla para modificar el menu de herramientas
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    // obtener ancho actual de la pantalla
+    const windowWidth = (event.target as Window).innerWidth;
+    console.log('window: ',windowWidth)
+
+    // verificar si es una pantalla chica (w<991px)
+    if(windowWidth<=991){
+      // es una pantalla chica
+      this.pantallaChica = true;
+      this.mainElem.nativeElement.classList.remove('container-fluid');
+    }
+    else{
+      // no es una pantalla chica
+      this.pantallaChica = false;
+      this.mainElem.nativeElement.classList.add('container-fluid');
+    }
   }
 
   // eliminar todo el dibujo
