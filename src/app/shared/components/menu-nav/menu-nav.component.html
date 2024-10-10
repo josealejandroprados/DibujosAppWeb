@@ -1,5 +1,5 @@
 <!-- menu de navegación -->
-<nav class="navbar navbar-expand-md bg-menu" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-menu" data-bs-theme="dark">
   <div class="container-fluid">
     <img src="../../../../assets/images/logo/LOGO1.jpg" width="120px" alt="logo" class="ms-4 navbar-brand rounded">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,11 @@
         <li class="nav-item" *ngIf="estalogueado()">
           <a class="nav-link" routerLink="listadibujos" routerLinkActive="active" ariaCurrentWhenActive="page">
               Lista dibujos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="about" routerLinkActive="active" ariaCurrentWhenActive="page">
+            Acerca de
           </a>
         </li>
         <!-- Contacto -->

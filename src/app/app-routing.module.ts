@@ -36,6 +36,12 @@ const routes: Routes = [
     ),
     canActivate:[LoginGuard]
   },
+  {
+    path:'',
+    loadChildren: () => import('./components/about/about.module').then(
+      m => m.AboutModule
+    )
+  },
   {path:'**', redirectTo:'/dibujar', pathMatch:'full'}
 ];
 
