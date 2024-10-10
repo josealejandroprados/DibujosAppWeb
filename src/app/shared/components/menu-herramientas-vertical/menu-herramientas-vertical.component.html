@@ -1,0 +1,333 @@
+<nav class="navbar navbar-expand-lg bg-menu" data-bs-theme="dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-start bg-menu" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body row">
+          <ul class="navbar-nav flex-column flex-grow-1 px-0">
+            <li class="nav-item">
+                <h4 class="text-center mt-2">Menú</h4>
+            </li>
+            <hr>
+            <!-- HERRAMIENTAS -->
+            <li class="nav-item mx-auto">
+                <div class="text-center">
+                    <label class="form-label mb-2 text-white">Herramientas</label>
+                    <div class="btn-group d-block">
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('pencil')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Lápiz"
+                            data-bs-placement="top">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('fill')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Relleno"
+                            data-bs-placement="top">
+                            <i class="bi bi-paint-bucket"></i>
+                        </button>
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('eraser')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Borrador"
+                            data-bs-placement="top">
+                            <i class="bi bi-eraser-fill"></i>
+                        </button>
+                        <button
+                            class="btn btn-outline-light btn-sm"
+                            (click)="selectShape('text')"
+                            data-bs-toggle="popover"
+                            data-bs-content="Texto"
+                            data-bs-placement="top">
+                            <i class="bi bi-alphabet-uppercase"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-center mt-2">
+                    <label class="form-label mb-2 text-white">Tamaño Borrador</label>
+                    <div class="btn-group btn-group-sm d-block">
+                        <button
+                        class="btn btn-outline-light btn-sm"
+                        (click)="cambiarBorrador('+')"
+                        data-bs-toggle="popover"
+                        data-bs-content="incrementar borrador"
+                        data-bs-placement="bottom"
+                        [disabled]="selectedShape!='eraser'">
+                            +
+                        </button>
+                        <button
+                        class="btn btn-outline-light btn-sm"
+                        (click)="cambiarBorrador('-')"
+                        data-bs-toggle="popover"
+                        data-bs-content="disminuir borrador"
+                        data-bs-placement="bottom"
+                        [disabled]="selectedShape!='eraser'">
+                            -
+                        </button>
+                    </div>
+                </div>
+            </li>
+            <hr>
+            <!-- FORMAS -->
+            <li class="nav- mx-auto">
+                <div class="text-center">
+                    <label class="form-label mb-2 text-white">Formas</label>
+                </div>
+                <div class="btn-group-vertical d-block text-center">
+                    <!-- formas: line, curve, circle, triangle, triangleRight -->
+                    <div class="btn-group d-block">
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('line')">
+                            <i class="bi bi-slash-lg"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('curve')">
+                            <i class="bi bi-bezier"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('circle')">
+                            <i class="bi bi-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('triangle')">
+                            <i class="bi bi-triangle"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('triangleRight')" id="myTriangle">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                                <polygon points="0,0 0,14 14,14" fill="none" stroke="white" stroke-width="1"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- formas: square, rectangle, rhombus, pentagon, hexagon -->
+                    <div class="btn-group d-block">
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('square')">
+                            <i class="bi bi-square"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('rectangle')" id="myRectangle">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                                <rect width="12" height="8" x="1" y="3" fill="none" stroke="white" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('rhombus')">
+                            <i class="bi bi-suit-diamond"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('pentagon')">
+                            <i class="bi bi-pentagon"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('hexagon')">
+                            <i class="bi bi-hexagon"></i>
+                        </button>
+                    </div>
+                    <!-- formas: heptagon octagon, heart, arrowUp, trapezoid -->
+                    <div class="btn-group d-block">
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('heptagon')">
+                            <i class="bi bi-heptagon"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('octagon')">
+                            <i class="bi bi-octagon"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('heart')">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('arrowUp')">
+                            <i class="bi bi-arrow-up"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('trapezoid')" id="trapezoid">
+                            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="3,12 11,12 9,2 5,2" fill="none" stroke="white" stroke-width="1"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- formas: start4, star5, star6, ellipse, bell -->
+                    <div class="btn-group d-block">
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('star4')" id="mystar4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                                <polygon points="7,0 10.5,7 7,14 3.5,7" fill="none" stroke="white" stroke-width="1" id="poligon1"/>
+                                <polygon points="0,7 7,10.5 14,7 7,3.5" fill="none" stroke="white" stroke-width="1" id="poligon2"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('star5')">
+                            <i class="bi bi-star"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('star6')" id="mystar6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                                <polygon points="7,1 8.75,5.25 13,5.25 9.5,7 13,8.75 8.75,8.75 7,13 5.25,8.75 1,8.75 4.5,7 1,5.25 5.25,5.25" fill="none" stroke="white" stroke-width="1"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('ellipse')" id="ellipse">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                <ellipse cx="7" cy="7" rx="6" ry="4.5" fill="none" stroke="white" stroke-width="1"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" (click)="selectShape('bell')">
+                            <i class="bi bi-bell"></i>
+                        </button>
+                    </div>
+                </div>
+            </li>
+            <hr>
+            <!-- ESTILOS DE TRAZO-->
+            <li class="nav-item mx-auto px-0">
+                <form [formGroup]="formStylesLine" (change)="enviarEstilosTrazo()">
+                    <div class="text-center">
+                        <label class="form-label mb-1 text-white">Estilo de trazo</label>
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-menu border border-light">
+                            <i class="bi bi-border-width text-white"></i>
+                        </span>
+                        <select formControlName="ancho" class="form-select form-select-sm bg-menu border border-light" aria-label="ancho linea">
+                            <option value="1">1px &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="3">3px &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="5">5px &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="8">8px &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="10">10px &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="15">15px &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="20">20x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="30">30px &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <input type="color" formControlName="color" class="form-control form-control-sm form-control-color bg-menu border border-light" title="Choose your color" id="color">
+                    </div>
+                </form>
+            </li>
+            <hr>
+            <!-- ESTILOS DE TEXTO -->
+            <li class="nav-item mx-auto px-0">
+                <form [formGroup]="formStylesText" (change)="enviarEstilosText()">
+                    <div class="text-center">
+                        <label class="form-label text-white mb-1">Estilo de texto</label>
+                    </div>
+
+                    <!-- grupo de inputs: size, color -->
+                    <div class="input-group input-group-sm mb-2">
+                        <select formControlName="size" class="form-select form-select-sm bg-menu border border-light">
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12">12</option>
+                            <option value="14">14</option>
+                            <option value="16">16</option>
+                            <option value="18">18</option>
+                            <option value="20">20</option>
+                            <option value="22">22</option>
+                            <option value="24">24</option>
+                            <option value="28">28</option>
+                            <option value="36">36</option>
+                            <option value="48">48</option>
+                            <option value="72">72</option>
+                            <option value="84">84</option>
+                            <option value="96">96</option>
+                            <option value="110">110</option>
+                        </select>
+
+                        <input type="color" formControlName="color" class="form-control form-control-sm form-control-color bg-menu border border-light" title="Choose your color">
+                    </div>
+
+                    <!-- select fuente -->
+                    <select formControlName="fuente" class="form-select form-select-sm bg-menu border border-light mb-2">
+                        <option value="Arial">Arial</option>
+                        <option value="Calibri">Calibri</option>
+                        <option value="Comic Sans MS">Comic Sans MS</option>
+                        <option value="Calisto MT">Calisto MT</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                    </select>
+
+                    <!-- grupo de botones: negrita, italica, subrayado, tachado, relleno -->
+                    <div class="text-center">
+                        <div class="btn-group btn-group-sm">
+                            <input type="checkbox" formControlName="negrita" class="btn-check" id="negrita">
+                            <label
+                                class="btn btn-outline-light"
+                                for="negrita"
+                                data-bs-toggle="popover"
+                                data-bs-content="Negrita"
+                                data-bs-placement="top">
+                                <strong>N</strong>
+                            </label>
+    
+                            <input type="checkbox" formControlName="italica" class="btn-check" id="italica">
+                            <label
+                                class="btn btn-outline-light"
+                                for="italica"
+                                data-bs-toggle="popover"
+                                data-bs-content="Itálica"
+                                data-bs-placement="top">
+                                <em>K</em>
+                            </label>
+    
+                            <input type="checkbox" formControlName="subrayado" class="btn-check" id="subrayado">
+                            <label
+                                class="btn btn-outline-light"
+                                for="subrayado"
+                                data-bs-toggle="popover"
+                                data-bs-content="Subrayado"
+                                data-bs-placement="top">
+                                <u>S</u>
+                            </label>
+    
+                            <input type="checkbox" formControlName="tachado" class="btn-check" id="tachado">
+                            <label
+                                class="btn btn-outline-light"
+                                for="tachado"
+                                data-bs-toggle="popover"
+                                data-bs-content="Tachado"
+                                data-bs-placement="top">
+                                <del>S</del>
+                            </label>
+    
+                            <input class="btn-check" formControlName="relleno" type="checkbox" id="relleno">
+                            <label 
+                                for="relleno"
+                                class="btn btn-outline-light"
+                                data-bs-toggle="popover"
+                                data-bs-content="Relleno"
+                                data-bs-placement="top">
+                                R
+                            </label>
+                        </div>
+                    </div>
+                    <!--  -->
+                </form>
+            </li>
+            <hr>
+            <!-- ACCIONES -->
+            <li class="nav-item mx-auto">
+                <label class="form-label mb-2 text-white mx-auto">Acciones</label>
+                <div class="btn-group d-block">
+                    <!-- eliminar dibujo -->
+                    <button 
+                        class="btn btn-outline-light btn-sm" 
+                        (click)="consultaEliminar()"
+                        data-bs-toggle="popover"
+                        data-bs-content="Eliminar dibujo"
+                        data-bs-placement="top">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <!-- guardar dibujo -->
+                    <button 
+                        class="btn btn-outline-light btn-sm" 
+                        (click)="guardarDibujo()"
+                        data-bs-toggle="popover"
+                        data-bs-placement="top"
+                        id="save">
+                        <i class="bi bi-floppy"></i>
+                    </button>
+                </div>
+            </li>
+            <hr>
+          </ul>
+        </div>
+      </div>
+    </div>
+</nav>
+
+<!-- inserción de componente modal-consulta que se usa para consultar al usuario
+ si quiere eliminar todo el dibujo -->
+<app-modal-consulta [modalQuery]="modalEliminar" (aceptar)="BorrarDibujo()"></app-modal-consulta>
+
+<!-- inserción de componente modal-save para guardar dibujo terminado -->
+<app-modal-save (guardarDibujo)="saveImage($event)"></app-modal-save>

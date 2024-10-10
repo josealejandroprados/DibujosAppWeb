@@ -11,6 +11,7 @@ import { ModalSaveComponent } from './components/modal-save/modal-save.component
 import { ModalTextoComponent } from './components/modal-texto/modal-texto.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MenuHerramientasVerticalComponent } from './components/menu-herramientas-vertical/menu-herramientas-vertical.component';
 
 
 
@@ -24,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ModalCargaInicialComponent,
     ModalConsultaComponent,
     ModalSaveComponent,
-    ModalTextoComponent
+    ModalTextoComponent,
+    MenuHerramientasVerticalComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ModalTextoComponent,
     ModalConsultaComponent,
     CanvasComponent,
-    ModalCargaInicialComponent
+    ModalCargaInicialComponent,
+    MenuHerramientasVerticalComponent
   ]
 })
 export class SharedModule { }
